@@ -61,6 +61,6 @@ volumes:
 networks:
   default:
       name: frog_builder
-  frog_vps:
+  frog_builder:
     driver: bridge
     name: frog_builder
