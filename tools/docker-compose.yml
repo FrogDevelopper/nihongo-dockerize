@@ -64,7 +64,7 @@ services:
     container_name: mariadb
     restart: always
     volumes:
-      - databases:/var/lib/mysql
+      - mariadb:/var/lib/mysql
     environment:
       TZ: Europe/Paris
       MYSQL_ROOT_PASSWORD: password
@@ -87,7 +87,7 @@ services:
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
 volumes:
-  databases:
+  mariadb:
   jenkins_home:
   dhparam:
   vhost:
