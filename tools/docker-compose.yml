@@ -1,0 +1,109 @@
+version: "3.7"
+
+services:
+
+  nginx-proxy:
+    image: jwilder/nginx-proxy:0.7.0
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    networks:
+      - frog_vps
+      - frog_pond
+
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.11
+    container_name: nginx-proxy-letsencrypt
+    restart: always
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      NGINX_PROXY_CONTAINER: nginx-proxy
+    networks:
+      - frog_vps
+      - frog_pond
+
+  jenkins:
+    image: jenkins/jenkins:jdk11
+    container_name: jenkins
+    restart: always
+    depends_on:
+      - mariadb
+      - nginx-proxy
+      - nginx-proxy-letsencrypt
+    expose:
+      - 8080
+    user: root
+    volumes:
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    links:
+      - mariadb:mysql
+    environment:
+      TZ: Europe/Paris
+      VIRTUAL_HOST: jenkins.frog-development.com
+      VIRTUAL_PORT: 8080
+      LETSENCRYPT_HOST: jenkins.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+  mariadb:
+    image: mariadb:10.4.4
+    container_name: mariadb
+    restart: always
+    volumes:
+      - databases:/var/lib/mysql
+    environment:
+      TZ: Europe/Paris
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: jenkins_database
+
+
+
+  artifactory:
+    image: docker.bintray.io/jfrog/artifactory-oss:6.10.1
+    container_name: artifactory
+    depends_on:
+      - nginx-proxy
+      - nginx-proxy-letsencrypt
+    expose:
+      - 8081
+    volumes:
+      - artifactory5_data:/var/opt/jfrog/artifactory
+    environment:
+      TZ: Europe/Paris
+      VIRTUAL_HOST: repo.frog-development.com
+      LETSENCRYPT_HOST: repo.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+volumes:
+  databases:
+  jenkins_home:
+  dhparam:
+  vhost:
+  html:
+  certs:
+  artifactory5_data:
+
+networks:
+  default:
+      name: frog_vps
+  frog_pond:
+    driver: bridge
+    external: true
+    name: frog_pond
+  frog_vps:
+    driver: bridge
+    name: frog_vps
