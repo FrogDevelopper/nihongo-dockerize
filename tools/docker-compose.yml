@@ -16,8 +16,8 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
     networks:
-      - frog_vps
-      - frog_pond
+      - frog_tools
+      - frog_ms
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
@@ -33,8 +33,8 @@ services:
     environment:
       NGINX_PROXY_CONTAINER: nginx-proxy
     networks:
-      - frog_vps
-      - frog_pond
+      - frog_tools
+      - frog_ms
 
   jenkins:
     image: jenkins/jenkins:jdk11
@@ -97,11 +97,11 @@ volumes:
 
 networks:
   default:
-      name: frog_vps
-  frog_pond:
+      name: frog_tools
+  frog_ms:
     driver: bridge
     external: true
-    name: frog_pond
-  frog_vps:
+    name: frog_ms
+  frog_tools:
     driver: bridge
-    name: frog_vps
+    name: frog_tools
