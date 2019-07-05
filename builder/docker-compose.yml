@@ -33,6 +33,7 @@ services:
   artifactory:
     image: docker.bintray.io/jfrog/artifactory-oss:6.11.1
     container_name: artifactory
+    restart: always
     depends_on:
       - nginx-proxy
       - nginx-proxy-letsencrypt
