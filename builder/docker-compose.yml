@@ -15,6 +15,8 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+    environment:
+      TZ: Europe/Paris
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
@@ -28,6 +30,7 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
+      TZ: Europe/Paris
       NGINX_PROXY_CONTAINER: nginx-proxy
 
   artifactory:
@@ -54,10 +57,3 @@ volumes:
   html:
   certs:
   artifactory_data:
-
-networks:
-  default:
-      name: frog_builder
-  frog_builder:
-    driver: bridge
-    name: frog_builder
