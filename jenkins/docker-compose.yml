@@ -15,8 +15,9 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
-    environment:
-      TZ: Europe/Paris
+    networks:
+      - frog_tools
+      - frog_ms
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
@@ -30,32 +31,60 @@ services:
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
     environment:
-      TZ: Europe/Paris
       NGINX_PROXY_CONTAINER: nginx-proxy
+    networks:
+      - frog_tools
+      - frog_ms
 
-  artifactory:
-    image: docker.bintray.io/jfrog/artifactory-oss:6.11.1
-    container_name: artifactory
+  jenkins:
+    image: jenkins/jenkins:jdk11
+    container_name: jenkins
     restart: always
     depends_on:
+      - mariadb
       - nginx-proxy
       - nginx-proxy-letsencrypt
     expose:
-      - 8081
-    ports:
-      - 8081:8081
+      - 8080
+    user: root
     volumes:
-      - artifactory_data:/var/opt/jfrog/artifactory
+      - jenkins_home:/var/jenkins_home
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    links:
+      - mariadb:mysql
     environment:
       TZ: Europe/Paris
-#      VIRTUAL_HOST: artifactory.frog-development.com
-#      LETSENCRYPT_HOST: artifactory.frog-development.com
-#      LETSENCRYPT_EMAIL: postmaster@frog-development.com
-      EXTRA_JAVA_OPTIONS: '-server -Xms512m -Xmx2g -Xss512k -XX:+UseG1GC'
+      VIRTUAL_HOST: jenkins.frog-development.com
+      VIRTUAL_PORT: 8080
+      LETSENCRYPT_HOST: jenkins.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+  mariadb:
+    image: mariadb:10.4.6
+    container_name: mariadb
+    restart: always
+    volumes:
+      - mariadb:/var/lib/mysql
+    environment:
+      TZ: Europe/Paris
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: jenkins_database
 
 volumes:
+  mariadb:
+  jenkins_home:
   dhparam:
   vhost:
   html:
   certs:
-  artifactory_data:
+
+networks:
+  default:
+      name: frog_tools
+  frog_ms:
+    driver: bridge
+    external: true
+    name: frog_ms
+  frog_tools:
+    driver: bridge
+    name: frog_tools
