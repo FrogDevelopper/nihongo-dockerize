@@ -49,7 +49,7 @@ services:
       VIRTUAL_HOST: artifactory.frog-development.com
       LETSENCRYPT_HOST: artifactory.frog-development.com
       LETSENCRYPT_EMAIL: postmaster@frog-development.com
-      EXTRA_JAVA_OPTIONS: '-server -Xms512m -Xmx2g -Xss512k -XX:+UseG1GC'
+      EXTRA_JAVA_OPTIONS: '-server -Xms512m -Xmx4g -Xss256k -XX:+UseG1GC'
 
 volumes:
   dhparam:
