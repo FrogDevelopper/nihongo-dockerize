@@ -46,10 +46,10 @@ services:
       - artifactory_data:/var/opt/jfrog/artifactory
     environment:
       TZ: Europe/Paris
-      VIRTUAL_HOST: artifactory.frog-development.com
-      LETSENCRYPT_HOST: artifactory.frog-development.com
-      LETSENCRYPT_EMAIL: postmaster@frog-development.com
-      EXTRA_JAVA_OPTIONS: '-server -Xms512m -Xmx1g -Xss256k -XX:+UseG1GC'
+#      VIRTUAL_HOST: artifactory.frog-development.com
+#      LETSENCRYPT_HOST: artifactory.frog-development.com
+#      LETSENCRYPT_EMAIL: postmaster@frog-development.com
+      EXTRA_JAVA_OPTIONS: '-server -Xms512m -Xmx2g -Xss512k -XX:+UseG1GC'
 
 volumes:
   dhparam:
