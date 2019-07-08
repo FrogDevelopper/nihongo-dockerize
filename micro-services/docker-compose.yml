@@ -2,28 +2,28 @@ version: "3.7"
 
 services:
 
-#  rabbit-mq:
-#    container_name: rabbit-mq
-#    image: rabbitmq:3-management
-#    hostname: rabbit-mq
-#    ports:
-#      - 7100:5672
-#    volumes:
-#      - rabbitmq:/var/lib/rabbitmq
-#    #      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-#    #      restart: always
-#    environment:
-#      RABBITMQ_DEFAULT_USER: user
-#      RABBITMQ_DEFAULT_PASS: password
+  #  rabbit-mq:
+  #    container_name: rabbit-mq
+  #    image: rabbitmq:3-management
+  #    hostname: rabbit-mq
+  #    ports:
+  #      - 7100:5672
+  #    volumes:
+  #      - rabbitmq:/var/lib/rabbitmq
+  #    #      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
+  #    #      restart: always
+  #    environment:
+  #      RABBITMQ_DEFAULT_USER: user
+  #      RABBITMQ_DEFAULT_PASS: password
 
-#  sqlite3:
-#    build:
-#      context: .
-#      dockerfile: Dockerfile-sqlite3
-#    container_name: sqlite3
-#    restart: always
-#    volumes:
-#      - databases:/root/db/
+  #  sqlite3:
+  #    build:
+  #      context: .
+  #      dockerfile: Dockerfile-sqlite3
+  #    container_name: sqlite3
+  #    restart: always
+  #    volumes:
+  #      - databases:/root/db/
 
   service-registry:
     container_name: service-registry
@@ -51,6 +51,7 @@ services:
       VIRTUAL_HOST: boot-admin.frog-development.com
       LETSENCRYPT_HOST: boot-admin.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+      WEBHOOK: ${WEBHOOK}
 
   service-config:
     container_name: service-config
