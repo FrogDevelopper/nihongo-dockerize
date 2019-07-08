@@ -51,7 +51,7 @@ services:
       VIRTUAL_HOST: boot-admin.frog-development.com
       LETSENCRYPT_HOST: boot-admin.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
-      WEBHOOK: ${WEBHOOK}
+      WEBHOOK_URL: ${WEBHOOK_URL}
 
   service-config:
     container_name: service-config
