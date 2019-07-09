@@ -70,7 +70,7 @@ services:
 
   service-gateway:
     container_name: service-gateway
-    image: frogdevelopment/service-gateway:master
+    image: frogdevelopment/service-gateway:feat_gateway_plugin
     expose:
       - 8080
     volumes:
