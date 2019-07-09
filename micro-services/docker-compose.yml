@@ -89,7 +89,7 @@ services:
 
   authentication-service:
     container_name: authentication-service
-    image: frogdevelopment/authentication-service:master
+    image: frogdevelopment/authentication-service:feature_migrate_artifactory
     volumes:
       - databases:/opt/db
       - logs:/var/log
