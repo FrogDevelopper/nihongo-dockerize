@@ -16,18 +16,9 @@ services:
   #      RABBITMQ_DEFAULT_USER: user
   #      RABBITMQ_DEFAULT_PASS: password
 
-  #  sqlite3:
-  #    build:
-  #      context: .
-  #      dockerfile: Dockerfile-sqlite3
-  #    container_name: sqlite3
-  #    restart: always
-  #    volumes:
-  #      - databases:/root/db/
-
   service-registry:
     container_name: service-registry
-    image: frogdevelopment/service-registry:master
+    image: frogdevelopment/service-registry:1.0.0
     volumes:
       - logs:/var/log
     restart: always
@@ -37,7 +28,7 @@ services:
 
   service-administration:
     container_name: service-administration
-    image: frogdevelopment/service-administration:master
+    image: frogdevelopment/service-administration:1.0.0
     expose:
       - 8080
     volumes:
@@ -55,7 +46,7 @@ services:
 
   service-config:
     container_name: service-config
-    image: frogdevelopment/service-config:master
+    image: frogdevelopment/service-config:1.0.0
     volumes:
       - logs:/var/log
       - /root/.ssh:/root/.ssh
@@ -70,7 +61,7 @@ services:
 
   service-gateway:
     container_name: service-gateway
-    image: frogdevelopment/service-gateway:feat_gateway_plugin
+    image: frogdevelopment/service-gateway:master
     expose:
       - 8080
     volumes:
@@ -89,7 +80,7 @@ services:
 
   authentication-service:
     container_name: authentication-service
-    image: frogdevelopment/authentication-service:feature_migrate_artifactory
+    image: frogdevelopment/authentication-service:fix_authentication
     volumes:
       - databases:/opt/db
       - logs:/var/log
