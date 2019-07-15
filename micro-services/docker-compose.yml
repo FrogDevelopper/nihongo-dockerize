@@ -108,20 +108,20 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-#  nihongo-dico-service:
-#    container_name: nihongo-dico-service
-#    image: frogdevelopment/nihongo-dico-service:master
-#    volumes:
-#      - databases:/opt/db
-#      - logs:/var/log
-#    restart: always
-#    depends_on:
-#      - service-config
-#      - service-registry
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+  #  nihongo-dico-service:
+  #    container_name: nihongo-dico-service
+  #    image: frogdevelopment/nihongo-dico-service:master
+  #    volumes:
+  #      - databases:/opt/db
+  #      - logs:/var/log
+  #    restart: always
+  #    depends_on:
+  #      - service-config
+  #      - service-registry
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-dico-populate-service:
     container_name: nihongo-dico-populate-service
@@ -153,48 +153,71 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-#  book-search-service:
-#    container_name: book-search-service
-#    image: frogdevelopment/book-search-service:master
-#    volumes:
-#      - logs:/var/log
-#    restart: always
-#    depends_on:
-#      - service-config
-#      - service-registry
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+  #  book-search-service:
+  #    container_name: book-search-service
+  #    image: frogdevelopment/book-search-service:master
+  #    volumes:
+  #      - logs:/var/log
+  #    restart: always
+  #    depends_on:
+  #      - service-config
+  #      - service-registry
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-#  nihongo-dico-web:
-#    container_name: nihongo-dico-web
-#    image: frogdevelopment/nihongo-dico-web:latest
-#    expose:
-#      - 80
-#    restart: always
-#    depends_on:
-#      - service-gateway
-#    environment:
-#      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-#      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  #  nihongo-dico-web:
+  #    container_name: nihongo-dico-web
+  #    image: frogdevelopment/nihongo-dico-web:latest
+  #    expose:
+  #      - 80
+  #    restart: always
+  #    depends_on:
+  #      - service-gateway
+  #    environment:
+  #      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+  #      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+  #      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
-#  frog-manager-web:
-#    container_name: frog-manager-web
-#    image: frogdevelopment/frog-manager-web:latest
-#    expose:
-#      - 80
-#    restart: always
-#    depends_on:
-#      - service-gateway
-#    environment:
-#      VIRTUAL_HOST: manager.frog-development.com
-#      LETSENCRYPT_HOST: manager.frog-development.com
-#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  #  frog-manager-web:
+  #    container_name: frog-manager-web
+  #    image: frogdevelopment/frog-manager-web:latest
+  #    expose:
+  #      - 80
+  #    restart: always
+  #    depends_on:
+  #      - service-gateway
+  #    environment:
+  #      VIRTUAL_HOST: manager.frog-development.com
+  #      LETSENCRYPT_HOST: manager.frog-development.com
+  #      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+  postgres:
+    container_name: postgres
+    image: postgres:11.4-alpine
+    restart: always
+    environment:
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB = tmp
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:4.10
+    restart: always
+    ports:
+      - 90:80
+    depends_on:
+      - postgres
+    environment:
+      - PGADMIN_DEFAULT_EMAIL=frog-development-it@gmail.com
+      - PGADMIN_DEFAULT_PASSWORD=postgres
 
 volumes:
   databases:
+  postgres_data:
   logs:
 #  rabbitmq:
 
