@@ -167,31 +167,31 @@ services:
     #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-    nihongo-dico-web:
-      container_name: nihongo-dico-web
-      image: frogdevelopment/nihongo-dico-web:latest
-      expose:
-        - 80
-      restart: always
-      depends_on:
-        - service-gateway
-      environment:
-        VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-        LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-        LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  nihongo-dico-web:
+    container_name: nihongo-dico-web
+    image: frogdevelopment/nihongo-dico-web:latest
+    expose:
+      - 80
+    restart: always
+    depends_on:
+      - service-gateway
+    environment:
+      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
-    frog-manager-web:
-      container_name: frog-manager-web
-      image: frogdevelopment/frog-manager-web:latest
-      expose:
-        - 80
-      restart: always
-      depends_on:
-        - service-gateway
-      environment:
-        VIRTUAL_HOST: manager.frog-development.com
-        LETSENCRYPT_HOST: manager.frog-development.com
-        LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  frog-manager-web:
+    container_name: frog-manager-web
+    image: frogdevelopment/frog-manager-web:latest
+    expose:
+      - 80
+    restart: always
+    depends_on:
+      - service-gateway
+    environment:
+      VIRTUAL_HOST: manager.frog-development.com
+      LETSENCRYPT_HOST: manager.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
 #  postgres:
 #    container_name: postgres
@@ -217,7 +217,7 @@ services:
 
 volumes:
   databases:
-#  postgres_data:
+  #  postgres_data:
   logs:
 #  rabbitmq:
 
