@@ -193,31 +193,34 @@ services:
       LETSENCRYPT_HOST: manager.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
-#  postgres:
-#    container_name: postgres
-#    image: postgres:11.4-alpine
-#    restart: always
-#    environment:
-#      - POSTGRES_PASSWORD=postgres
-#      - POSTGRES_DB = tmp
-#    volumes:
-#      - postgres_data:/var/lib/postgresql/data
-#
-#  pgAdmin:
-#    container_name: pgAdmin
-#    image: dpage/pgadmin4:4.10
-#    restart: always
-#    ports:
-#      - 90:80
-#    depends_on:
-#      - postgres
-#    environment:
-#      - PGADMIN_DEFAULT_EMAIL=frog-development-it@gmail.com
-#      - PGADMIN_DEFAULT_PASSWORD=postgres
+  postgres:
+    container_name: postgres
+    image: postgres:11.4-alpine
+    restart: always
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      POSTGRES_PASSWORD: postgres
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+  pgAdmin:
+    container_name: pgAdmin
+    image: dpage/pgadmin4:4.11
+    restart: always
+    ports:
+      - 90:80
+    depends_on:
+      - postgres
+    environment:
+      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
 
 volumes:
   databases:
-  #  postgres_data:
+  postgres_data:
   logs:
 #  rabbitmq:
 
