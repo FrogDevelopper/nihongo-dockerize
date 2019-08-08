@@ -69,7 +69,6 @@ services:
     restart: always
     depends_on:
       - service-config
-      - service-registry
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -87,41 +86,24 @@ services:
     restart: always
     depends_on:
       - service-config
-      - service-registry
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-lesson-service:
-    container_name: nihongo-lesson-service
-    image: frogdevelopment/nihongo-lesson-service:master
-    volumes:
-      - databases:/opt/db
-      - logs:/var/log
-    restart: always
-    depends_on:
-      - service-config
-      - service-registry
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SIGNING_KEY: ${JWT_SIGNING_KEY}
-
-  #  nihongo-dico-service:
-  #    container_name: nihongo-dico-service
-  #    image: frogdevelopment/nihongo-dico-service:master
-  #    volumes:
-  #      - databases:/opt/db
-  #      - logs:/var/log
-  #    restart: always
-  #    depends_on:
-  #      - service-config
-  #      - service-registry
-  #    environment:
-  #      TZ: ${TIME_ZONE}
-  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-  #      SIGNING_KEY: ${JWT_SIGNING_KEY}
+#  nihongo-lesson-service:
+#    container_name: nihongo-lesson-service
+#    image: frogdevelopment/nihongo-lesson-service:master
+#    volumes:
+#      - databases:/opt/db
+#      - logs:/var/log
+#    restart: always
+#    depends_on:
+#      - service-config
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-entries-populate-service:
     container_name: nihongo-entries-populate-service
@@ -131,13 +113,27 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
+      - authentication-service
       - service-config
-      - service-registry
       - postgres
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+
+  nihongo-entries-search-service:
+    container_name: nihongo-entries-search-service
+    image: frogdevelopment/nihongo-entries-search-service:master
+    volumes:
+      - databases:/opt/db
+      - logs:/var/log
+    restart: always
+    depends_on:
+      - service-config
+      - postgres
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
 
   nihongo-sentences-populate-service:
     container_name: nihongo-sentences-populate-service
@@ -147,13 +143,27 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
+      - authentication-service
       - service-config
-      - service-registry
       - postgres
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+
+  nihongo-sentences-search-service:
+    container_name: nihongo-sentences-search-service
+    image: frogdevelopment/nihongo-sentences-search-service:master
+    volumes:
+      - databases:/opt/db
+      - logs:/var/log
+    restart: always
+    depends_on:
+      - service-config
+      - postgres
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
 
     #  book-search-service:
     #    container_name: book-search-service
@@ -163,24 +173,23 @@ services:
     #    restart: always
     #    depends_on:
     #      - service-config
-    #      - service-registry
     #    environment:
     #      TZ: ${TIME_ZONE}
     #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
     #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-#  nihongo-dico-web:
-#    container_name: nihongo-dico-web
-#    image: frogdevelopment/nihongo-dico-web:master
-#    expose:
-#      - 80
-#    restart: always
-#    depends_on:
-#      - service-gateway
-#    environment:
-#      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-#      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  #  nihongo-dico-web:
+  #    container_name: nihongo-dico-web
+  #    image: frogdevelopment/nihongo-dico-web:master
+  #    expose:
+  #      - 80
+  #    restart: always
+  #    depends_on:
+  #      - service-gateway
+  #    environment:
+  #      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+  #      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+  #      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
   frog-manager-web:
     container_name: frog-manager-web
