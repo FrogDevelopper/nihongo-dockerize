@@ -18,6 +18,10 @@ services:
     networks:
       - frog_tools
       - frog_ms
+    logging:
+      options:
+        max-size: "50k"
+        max-file: "2"
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
@@ -30,6 +34,10 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      options:
+        max-size: "50k"
+        max-file: "2"
     environment:
       NGINX_PROXY_CONTAINER: nginx-proxy
     networks:
@@ -58,6 +66,10 @@ services:
       VIRTUAL_PORT: 8080
       LETSENCRYPT_HOST: jenkins.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+    logging:
+      options:
+        max-size: "100k"
+        max-file: "4"
 
   mariadb:
     image: mariadb:10.4.6
@@ -69,6 +81,10 @@ services:
       TZ: Europe/Paris
       MYSQL_ROOT_PASSWORD: password
       MYSQL_DATABASE: jenkins_database
+    logging:
+      options:
+        max-size: "50k"
+        max-file: "2"
 
 volumes:
   mariadb:
