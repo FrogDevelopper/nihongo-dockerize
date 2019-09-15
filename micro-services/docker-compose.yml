@@ -3,8 +3,8 @@ version: "3.7"
 services:
 
 # tools
-  pgroonga:
-    container_name: pgroonga
+  postgres:
+    container_name: postgres
     image: groonga/pgroonga:2.2.1-alpine-11-slim
     restart: always
     #    expose:
@@ -119,7 +119,7 @@ services:
       - pgroonga
     environment:
       TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-sentences-service:
@@ -134,7 +134,7 @@ services:
       - pgroonga
     environment:
       TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
 #  nihongo-lesson-service:
@@ -148,7 +148,7 @@ services:
 #      - service-config
 #    environment:
 #      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
 #  book-search-service:
@@ -161,7 +161,7 @@ services:
 #      - service-config
 #    environment:
 #      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
 #  nihongo-dico-web:
