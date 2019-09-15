@@ -2,20 +2,35 @@ version: "3.7"
 
 services:
 
-  #  rabbit-mq:
-  #    container_name: rabbit-mq
-  #    image: rabbitmq:3-management
-  #    hostname: rabbit-mq
-  #    ports:
-  #      - 7100:5672
-  #    volumes:
-  #      - rabbitmq:/var/lib/rabbitmq
-  #    #      - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/rabbitmq.conf
-  #    #      restart: always
-  #    environment:
-  #      RABBITMQ_DEFAULT_USER: user
-  #      RABBITMQ_DEFAULT_PASS: password
+# tools
+  pgroonga:
+    container_name: pgroonga
+    image: groonga/pgroonga:2.2.1-alpine-11-slim
+    restart: always
+    #    expose:
+    #      - 5432
+    ports:
+      - 5433:5432
+    environment:
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_USER: ${POSTGRES_USER}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
+  pgAdmin:
+    container_name: pgAdmin_frog
+    image: dpage/pgadmin4:4.12
+    restart: always
+    ports:
+      - 90:80
+    depends_on:
+      - pgroonga
+    environment:
+      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
+      PGADMIN_DEFAULT_PASSWORD: postgres
+
+# support
   service-registry:
     container_name: service-registry
     image: frogdevelopment/service-registry:1.0.0
@@ -77,6 +92,7 @@ services:
       LETSENCRYPT_HOST: gateway.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
+# services
   authentication-service:
     container_name: authentication-service
     image: frogdevelopment/authentication-service:fix_authentication
@@ -86,6 +102,36 @@ services:
     restart: always
     depends_on:
       - service-config
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+
+  nihongo-entries-service:
+    container_name: nihongo-entries-service
+    image: frogdevelopment/nihongo-entries-service:master
+    volumes:
+      - logs:/var/log
+    restart: always
+    depends_on:
+      - authentication-service
+      - service-config
+      - pgroonga
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+
+  nihongo-sentences-service:
+    container_name: nihongo-sentences-service
+    image: frogdevelopment/nihongo-sentences-service:master
+    volumes:
+      - logs:/var/log
+    restart: always
+    depends_on:
+      - authentication-service
+      - service-config
+      - pgroonga
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -105,91 +151,31 @@ services:
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-entries-populate-service:
-    container_name: nihongo-entries-populate-service
-    image: frogdevelopment/nihongo-entries-populate-service:master
-    volumes:
-      - databases:/opt/db
-      - logs:/var/log
-    restart: always
-    depends_on:
-      - authentication-service
-      - service-config
-      - pgroonga
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SIGNING_KEY: ${JWT_SIGNING_KEY}
+#  book-search-service:
+#    container_name: book-search-service
+#    image: frogdevelopment/book-search-service:master
+#    volumes:
+#      - logs:/var/log
+#    restart: always
+#    depends_on:
+#      - service-config
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-entries-search-service:
-    container_name: nihongo-entries-search-service
-    image: frogdevelopment/nihongo-entries-search-service:master
-    volumes:
-      - databases:/opt/db
-      - logs:/var/log
-    restart: always
-    depends_on:
-      - service-config
-      - pgroonga
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-
-  nihongo-sentences-populate-service:
-    container_name: nihongo-sentences-populate-service
-    image: frogdevelopment/nihongo-sentences-populate-service:master
-    volumes:
-      - databases:/opt/db
-      - logs:/var/log
-    restart: always
-    depends_on:
-      - authentication-service
-      - service-config
-      - pgroonga
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SIGNING_KEY: ${JWT_SIGNING_KEY}
-
-  nihongo-sentences-search-service:
-    container_name: nihongo-sentences-search-service
-    image: frogdevelopment/nihongo-sentences-search-service:master
-    volumes:
-      - databases:/opt/db
-      - logs:/var/log
-    restart: always
-    depends_on:
-      - service-config
-      - pgroonga
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-
-    #  book-search-service:
-    #    container_name: book-search-service
-    #    image: frogdevelopment/book-search-service:master
-    #    volumes:
-    #      - logs:/var/log
-    #    restart: always
-    #    depends_on:
-    #      - service-config
-    #    environment:
-    #      TZ: ${TIME_ZONE}
-    #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-    #      SIGNING_KEY: ${JWT_SIGNING_KEY}
-
-  #  nihongo-dico-web:
-  #    container_name: nihongo-dico-web
-  #    image: frogdevelopment/nihongo-dico-web:master
-  #    expose:
-  #      - 80
-  #    restart: always
-  #    depends_on:
-  #      - service-gateway
-  #    environment:
-  #      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-  #      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-  #      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+#  nihongo-dico-web:
+#    container_name: nihongo-dico-web
+#    image: frogdevelopment/nihongo-dico-web:master
+#    expose:
+#      - 80
+#    restart: always
+#    depends_on:
+#      - service-gateway
+#    environment:
+#      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
   frog-manager-web:
     container_name: frog-manager-web
@@ -219,40 +205,11 @@ services:
 #      - postgres_data:/var/lib/postgresql/data
 #      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
-  pgroonga:
-    container_name: pgroonga
-    image: groonga/pgroonga:2.2.1-alpine-11-slim
-    restart: always
-#    expose:
-#      - 5432
-    ports:
-      - 5433:5432
-    environment:
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
-      POSTGRES_USER: ${POSTGRES_USER}
-    volumes:
-      - postgres_data:/var/lib/postgresql/data
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
-
-  pgAdmin:
-    container_name: pgAdmin_frog
-    image: dpage/pgadmin4:4.12
-    restart: always
-    ports:
-      - 90:80
-    depends_on:
-      - pgroonga
-    environment:
-      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
-
 volumes:
   databases:
   postgres_data:
   logs:
-#  rabbitmq:
 
 networks:
   default:
-    external:
-      name: frog_ms
+    name: frog_ms
