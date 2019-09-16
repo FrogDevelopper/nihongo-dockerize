@@ -25,7 +25,7 @@ services:
     ports:
       - 90:80
     depends_on:
-      - pgroonga
+      - postgres
     environment:
       PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
       PGADMIN_DEFAULT_PASSWORD: postgres
@@ -116,7 +116,7 @@ services:
     depends_on:
       - authentication-service
       - service-config
-      - pgroonga
+      - postgres
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -131,7 +131,7 @@ services:
     depends_on:
       - authentication-service
       - service-config
-      - pgroonga
+      - postgres
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
