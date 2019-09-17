@@ -18,17 +18,17 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
-  pgAdmin:
-    container_name: pgAdmin_frog
-    image: dpage/pgadmin4:4.12
-    restart: always
-    ports:
-      - 90:80
-    depends_on:
-      - postgres
-    environment:
-      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
-      PGADMIN_DEFAULT_PASSWORD: postgres
+#  pgAdmin:
+#    container_name: pgAdmin_frog
+#    image: dpage/pgadmin4:4.12
+#    restart: always
+#    ports:
+#      - 90:80
+#    depends_on:
+#      - postgres
+#    environment:
+#      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
+#      PGADMIN_DEFAULT_PASSWORD: postgres
 
 # support
   service-registry:
