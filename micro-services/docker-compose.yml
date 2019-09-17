@@ -108,11 +108,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-entries-service:
-    container_name: nihongo-entries-service
+  nihongo-dico-entries-service:
+    container_name: nihongo-dico-entries-service
     image: frogdevelopment/nihongo-entries-service:feature_improve
     volumes:
-      - /tmp/nihongo-entries-service:/tmp
+      - /tmp/nihongo-dico-entries-service:/tmp
       - logs:/var/log
     restart: always
     depends_on:
@@ -124,11 +124,11 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-sentences-service:
-    container_name: nihongo-sentences-service
+  nihongo-dico-sentences-service:
+    container_name: nihongo-dico-sentences-service
     image: frogdevelopment/nihongo-sentences-service:master
     volumes:
-      - /tmp/nihongo-sentences-service:/tmp
+      - /tmp/nihongo-dico-sentences-service:/tmp
       - logs:/var/log
     restart: always
     depends_on:
