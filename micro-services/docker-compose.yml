@@ -105,7 +105,7 @@ services:
       - service-registry
     environment:
       TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-entries-service:
