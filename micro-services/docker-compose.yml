@@ -33,7 +33,7 @@ services:
 # support
   service-registry:
     container_name: service-registry
-    image: frogdevelopment/service-registry:1.0.0
+    image: frogdevelopment/service-registry:1.0.1-SNAPSHOT
     volumes:
       - logs:/var/log
     restart: always
@@ -43,7 +43,7 @@ services:
 
   service-administration:
     container_name: service-administration
-    image: frogdevelopment/service-administration:1.0.0
+    image: frogdevelopment/service-administration:1.0.1-SNAPSHOT
     expose:
       - 8080
     volumes:
@@ -61,7 +61,7 @@ services:
 
   service-config:
     container_name: service-config
-    image: frogdevelopment/service-config:1.0.0
+    image: frogdevelopment/service-config:1.0.1-SNAPSHOT
     volumes:
       - logs:/var/log
       - /root/.ssh:/root/.ssh
