@@ -109,7 +109,7 @@ services:
 
   nihongo-entries-service:
     container_name: nihongo-entries-service
-    image: frogdevelopment/nihongo-entries-service:master
+    image: frogdevelopment/nihongo-entries-service:feature_optional_forcef
     volumes:
       - logs:/var/log
     restart: always
