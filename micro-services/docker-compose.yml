@@ -83,7 +83,7 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
-      - service-config
+      - service-registry
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -101,7 +101,7 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
-      - service-config
+      - service-registry
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -114,8 +114,8 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
-      - authentication-service
-      - service-config
+#      - authentication-service
+      - service-registry
       - postgres
     environment:
       TZ: ${TIME_ZONE}
@@ -129,8 +129,8 @@ services:
       - logs:/var/log
     restart: always
     depends_on:
-      - authentication-service
-      - service-config
+#      - authentication-service
+      - service-registry
       - postgres
     environment:
       TZ: ${TIME_ZONE}
@@ -145,7 +145,7 @@ services:
 #      - logs:/var/log
 #    restart: always
 #    depends_on:
-#      - service-config
+#      - service-registry
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -158,7 +158,7 @@ services:
 #      - logs:/var/log
 #    restart: always
 #    depends_on:
-#      - service-config
+#      - service-registry
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
