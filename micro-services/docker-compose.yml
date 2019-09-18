@@ -110,7 +110,7 @@ services:
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
-    image: frogdevelopment/nihongo-entries-service:feature_improve
+    image: frogdevelopment/nihongo-dico-entries-service:feature_improve
     volumes:
       - /tmp/nihongo-dico-entries-service:/tmp
       - logs:/var/log
@@ -126,7 +126,7 @@ services:
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
-    image: frogdevelopment/nihongo-sentences-service:master
+    image: frogdevelopment/nihongo-dico-sentences-service:master
     volumes:
       - /tmp/nihongo-dico-sentences-service:/tmp
       - logs:/var/log
