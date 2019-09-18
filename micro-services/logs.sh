@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker-compose -p frog-services logs -f $1
+tail -f /var/lib/docker/volumes/frog-services_logs/_data/$1.log
