@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   nginx-proxy:
-    image: jwilder/nginx-proxy:0.7.0
+    image: jwilder/nginx-proxy:alpine-0.7.0
     container_name: nginx-proxy
     restart: always
     ports:
@@ -19,7 +19,7 @@ services:
       TZ: Europe/Paris
 
   nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
     container_name: nginx-proxy-letsencrypt
     restart: always
     depends_on:
@@ -34,7 +34,7 @@ services:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
   artifactory:
-    image: docker.bintray.io/jfrog/artifactory-oss:6.11.1
+    image: docker.bintray.io/jfrog/artifactory-oss:6.13.1
     container_name: artifactory
     restart: always
     depends_on:

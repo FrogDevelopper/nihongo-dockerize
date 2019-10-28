@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   nginx-proxy:
-    image: jwilder/nginx-proxy:0.7.0
+    image: jwilder/nginx-proxy:alpine-0.7.0
     container_name: nginx-proxy
     restart: always
     ports:
@@ -24,7 +24,7 @@ services:
         max-file: "2"
 
   nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion:v1.11.2
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
     container_name: nginx-proxy-letsencrypt
     restart: always
     depends_on:
@@ -72,7 +72,7 @@ services:
         max-file: "4"
 
   mariadb:
-    image: mariadb:10.4.6
+    image: mariadb:10.4.8
     container_name: mariadb
     restart: always
     volumes:
