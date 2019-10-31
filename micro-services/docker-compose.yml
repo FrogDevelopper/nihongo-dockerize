@@ -126,7 +126,7 @@ services:
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
-    image: frogdevelopment/nihongo-dico-sentences-service:fix_search
+    image: frogdevelopment/nihongo-dico-sentences-service:feature_export
     volumes:
       - /tmp/nihongo-dico-sentences-service:/tmp
       - logs:/var/log
