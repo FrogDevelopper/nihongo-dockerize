@@ -146,7 +146,6 @@ services:
     container_name: nihongo-lesson-service
     image: frogdevelopment/nihongo-lesson-service:feat_update
     volumes:
-      - databases:/opt/db
       - logs:/var/log
     restart: always
     depends_on:
@@ -160,7 +159,6 @@ services:
     container_name: nihongo-lesson-migrate-service
     image: frogdevelopment/nihongo-lesson-migrate-service:master
     volumes:
-      - databases:/opt/db
       - logs:/var/log
     depends_on:
       - nihongo-lesson-service
