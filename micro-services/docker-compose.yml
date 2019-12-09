@@ -141,9 +141,9 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-lesson-service:
-    container_name: nihongo-lesson-service
-    image: frogdevelopment/nihongo-lesson-service:feat_update
+  nihongo-lessons-service:
+    container_name: nihongo-lessons-service
+    image: frogdevelopment/nihongo-lessons-service:feat_update
     volumes:
       - logs:/var/log
     restart: always
