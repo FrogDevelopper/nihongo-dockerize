@@ -154,16 +154,16 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-lesson-migrate-service:
-    container_name: nihongo-lesson-migrate-service
-    image: frogdevelopment/nihongo-lesson-migrate-service:master
-    volumes:
-      - logs:/var/log
-    depends_on:
-      - nihongo-lesson-service
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#  nihongo-lesson-migrate-service:
+#    container_name: nihongo-lesson-migrate-service
+#    image: frogdevelopment/nihongo-lesson-migrate-service:master
+#    volumes:
+#      - logs:/var/log
+#    depends_on:
+#      - nihongo-lesson-service
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 
 #  book-search-service:
 #    container_name: book-search-service
