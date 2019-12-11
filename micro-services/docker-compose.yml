@@ -37,7 +37,7 @@ services:
       - logs:/var/log
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "http://localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     environment:
       TZ: ${TIME_ZONE}
@@ -53,7 +53,7 @@ services:
       - logs:/var/log
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "http://localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     links:
       - service-registry
