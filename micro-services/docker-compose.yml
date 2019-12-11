@@ -118,7 +118,9 @@ services:
       test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     depends_on:
+      - service-config
       - service-registry
+      - service-gateway
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -135,8 +137,10 @@ services:
       test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     depends_on:
-#      - authentication-service
+      - service-config
       - service-registry
+      - service-gateway
+      - authentication-service
       - postgres
     environment:
       TZ: ${TIME_ZONE}
@@ -154,8 +158,10 @@ services:
       test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     depends_on:
-#      - authentication-service
+      - service-config
       - service-registry
+      - service-gateway
+      - authentication-service
       - postgres
     environment:
       TZ: ${TIME_ZONE}
@@ -172,7 +178,11 @@ services:
       test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 5s
     depends_on:
+      - service-config
       - service-registry
+      - service-gateway
+      - authentication-service
+      - postgres
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -210,6 +220,8 @@ services:
     restart: always
     depends_on:
       - service-gateway
+      - nihongo-dico-entries-service
+      - nihongo-dico-sentences-service
     environment:
       VIRTUAL_HOST: www.nihongo-dico.frog-development.com
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
