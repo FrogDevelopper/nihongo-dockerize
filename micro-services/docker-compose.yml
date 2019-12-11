@@ -4,7 +4,7 @@ services:
 
 # tools
   postgres:
-    container_name: postgres
+    container_name: pgroonga
     image: groonga/pgroonga:2.2.1-alpine-11-slim
     restart: always
     ports:
@@ -36,6 +36,9 @@ services:
       - /tmp/service-registry:/tmp
       - logs:/var/log
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -49,6 +52,9 @@ services:
       - /tmp/service-administration:/tmp
       - logs:/var/log
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     links:
       - service-registry
     environment:
@@ -67,6 +73,9 @@ services:
       - logs:/var/log
       - /root/.ssh:/root/.ssh
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     depends_on:
       - service-registry
     environment:
@@ -80,6 +89,9 @@ services:
     image: frogdevelopment/service-gateway:master
     expose:
       - 8080
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     volumes:
       - /tmp/service-gateway:/tmp
       - logs:/var/log
@@ -102,6 +114,9 @@ services:
       - /tmp/authentication-service:/tmp
       - logs:/var/log
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     depends_on:
       - service-registry
     environment:
@@ -116,6 +131,9 @@ services:
       - /tmp/nihongo-dico-entries-service:/tmp
       - logs:/var/log
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     depends_on:
 #      - authentication-service
       - service-registry
@@ -132,6 +150,9 @@ services:
       - /tmp/nihongo-dico-sentences-service:/tmp
       - logs:/var/log
     restart: always
+    healthcheck:
+      test: ["CMD", "curl", "http://localhost:8080/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 5s
     depends_on:
 #      - authentication-service
       - service-registry
