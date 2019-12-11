@@ -43,10 +43,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 10s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -62,10 +62,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-registry
     environment:
@@ -86,10 +86,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-registry
     environment:
@@ -105,10 +105,10 @@ services:
       - 8080
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     volumes:
       - /tmp/service-gateway:/tmp
       - logs:/var/log
@@ -133,10 +133,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -155,10 +155,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -179,10 +179,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -202,10 +202,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-        interval: 20s
-        timeout: 5s
-        retries: 5
-        start_period: 40s
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
     depends_on:
       - service-config
       - service-registry
