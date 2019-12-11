@@ -2,7 +2,7 @@ version: "3.7"
 
 services:
 
-# tools
+  # tools
   postgres:
     container_name: pgroonga
     image: groonga/pgroonga:2.2.1-alpine-11-slim
@@ -21,19 +21,19 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
-#  pgAdmin:
-#    container_name: pgAdmin_frog
-#    image: dpage/pgadmin4:4.12
-#    restart: always
-#    ports:
-#      - 90:80
-#    depends_on:
-#      - postgres
-#    environment:
-#      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
-#      PGADMIN_DEFAULT_PASSWORD: postgres
+  #  pgAdmin:
+  #    container_name: pgAdmin_frog
+  #    image: dpage/pgadmin4:4.12
+  #    restart: always
+  #    ports:
+  #      - 90:80
+  #    depends_on:
+  #      - postgres
+  #    environment:
+  #      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
+  #      PGADMIN_DEFAULT_PASSWORD: postgres
 
-# support
+  # support
   service-registry:
     container_name: service-registry
     image: frogdevelopment/service-registry:1.0.1-SNAPSHOT
@@ -43,7 +43,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 10s
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -59,7 +62,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-registry
     environment:
@@ -80,7 +86,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-registry
     environment:
@@ -96,7 +105,10 @@ services:
       - 8080
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     volumes:
       - /tmp/service-gateway:/tmp
       - logs:/var/log
@@ -111,7 +123,7 @@ services:
       LETSENCRYPT_HOST: gateway.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
-# services
+  # services
   authentication-service:
     container_name: authentication-service
     image: frogdevelopment/authentication-service:fix_authentication
@@ -121,7 +133,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -140,7 +155,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -161,7 +179,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -181,7 +202,10 @@ services:
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 5s
+        interval: 20s
+        timeout: 5s
+        retries: 5
+        start_period: 40s
     depends_on:
       - service-config
       - service-registry
@@ -193,29 +217,29 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-#  nihongo-lesson-migrate-service:
-#    container_name: nihongo-lesson-migrate-service
-#    image: frogdevelopment/nihongo-lesson-migrate-service:master
-#    volumes:
-#      - logs:/var/log
-#    depends_on:
-#      - nihongo-lesson-service
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+  #  nihongo-lesson-migrate-service:
+  #    container_name: nihongo-lesson-migrate-service
+  #    image: frogdevelopment/nihongo-lesson-migrate-service:master
+  #    volumes:
+  #      - logs:/var/log
+  #    depends_on:
+  #      - nihongo-lesson-service
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 
-#  book-search-service:
-#    container_name: book-search-service
-#    image: frogdevelopment/book-search-service:master
-#    volumes:
-#      - logs:/var/log
-#    restart: always
-#    depends_on:
-#      - service-registry
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+  #  book-search-service:
+  #    container_name: book-search-service
+  #    image: frogdevelopment/book-search-service:master
+  #    volumes:
+  #      - logs:/var/log
+  #    restart: always
+  #    depends_on:
+  #      - service-registry
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+  #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-dico-web:
     container_name: nihongo-dico-web
