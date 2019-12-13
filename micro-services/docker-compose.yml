@@ -219,7 +219,7 @@ services:
     volumes:
       - logs:/var/log
     depends_on:
-      - nihongo-lesson-service
+      - nihongo-lessons-service
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
