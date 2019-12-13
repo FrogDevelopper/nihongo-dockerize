@@ -21,18 +21,6 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
-  #  pgAdmin:
-  #    container_name: pgAdmin_frog
-  #    image: dpage/pgadmin4:4.12
-  #    restart: always
-  #    ports:
-  #      - 90:80
-  #    depends_on:
-  #      - postgres
-  #    environment:
-  #      PGADMIN_DEFAULT_EMAIL: frog-development-it@gmail.com
-  #      PGADMIN_DEFAULT_PASSWORD: postgres
-
   # support
   service-registry:
     container_name: service-registry
@@ -145,6 +133,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${DB_PASSWORD}
+      DB_PASWORD: ${DB_PASWORD}
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
@@ -169,6 +159,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${DB_PASSWORD}
+      DB_PASWORD: ${DB_PASWORD}
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
@@ -193,6 +185,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${DB_PASSWORD}
+      DB_PASWORD: ${DB_PASWORD}
 
   nihongo-lessons-service:
     container_name: nihongo-lessons-service
@@ -216,17 +210,19 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${DB_PASSWORD}
+      DB_PASWORD: ${DB_PASWORD}
 
-  #  nihongo-lesson-migrate-service:
-  #    container_name: nihongo-lesson-migrate-service
-  #    image: frogdevelopment/nihongo-lesson-migrate-service:master
-  #    volumes:
-  #      - logs:/var/log
-  #    depends_on:
-  #      - nihongo-lesson-service
-  #    environment:
-  #      TZ: ${TIME_ZONE}
-  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+  nihongo-lesson-migrate-service:
+    container_name: nihongo-lesson-migrate-service
+    image: frogdevelopment/nihongo-lesson-migrate-service:master
+    volumes:
+      - logs:/var/log
+    depends_on:
+      - nihongo-lesson-service
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 
   #  book-search-service:
   #    container_name: book-search-service
