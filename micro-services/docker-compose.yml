@@ -5,7 +5,7 @@ services:
   # tools
   postgres:
     container_name: pgroonga
-    image: groonga/pgroonga:2.2.1-alpine-11-slim
+    image: groonga/pgroonga:2.2.2-alpine-12-slim
     restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
@@ -134,7 +134,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${DB_PASSWORD}
-      DB_PASWORD: ${DB_PASWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
@@ -160,7 +160,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${DB_PASSWORD}
-      DB_PASWORD: ${DB_PASWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
@@ -186,7 +186,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${DB_PASSWORD}
-      DB_PASWORD: ${DB_PASWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-lessons-service:
     container_name: nihongo-lessons-service
@@ -211,7 +211,7 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${DB_PASSWORD}
-      DB_PASWORD: ${DB_PASWORD}
+      DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-lesson-migrate-service:
     container_name: nihongo-lesson-migrate-service
