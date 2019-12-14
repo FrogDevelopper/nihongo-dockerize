@@ -135,7 +135,7 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_PASSWORD}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-dico-entries-service:
@@ -161,7 +161,7 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_PASSWORD}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-dico-sentences-service:
@@ -187,7 +187,7 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_PASSWORD}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-lessons-service:
@@ -212,7 +212,7 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_PASSWORD}
+      DB_USER: ${DB_USER}
       DB_PASSWORD: ${DB_PASSWORD}
 
   nihongo-lesson-migrate-service:
