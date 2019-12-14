@@ -215,18 +215,18 @@ services:
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
 
-  nihongo-lesson-migrate-service:
-    container_name: nihongo-lesson-migrate-service
-    image: frogdevelopment/nihongo-lesson-migrate-service:master
-    volumes:
-      - logs:/var/log
-    depends_on:
-      - nihongo-lessons-service
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
-      DB_USER: ${POSTGRES_USER}
-      DB_PASWORD: ${POSTGRES_PASSWORD}
+#  nihongo-lesson-migrate-service:
+#    container_name: nihongo-lesson-migrate-service
+#    image: frogdevelopment/nihongo-lesson-migrate-service:master
+#    volumes:
+#      - logs:/var/log
+#    depends_on:
+#      - nihongo-lessons-service
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
 
   #  book-search-service:
   #    container_name: book-search-service
