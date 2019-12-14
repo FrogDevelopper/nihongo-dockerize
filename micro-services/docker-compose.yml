@@ -135,8 +135,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
@@ -161,8 +161,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
@@ -187,8 +187,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
 
   nihongo-lessons-service:
     container_name: nihongo-lessons-service
@@ -212,8 +212,8 @@ services:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${DB_USER}
-      DB_PASSWORD: ${DB_PASSWORD}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
 
   nihongo-lesson-migrate-service:
     container_name: nihongo-lesson-migrate-service
