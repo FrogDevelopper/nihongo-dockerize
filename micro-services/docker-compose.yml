@@ -254,18 +254,21 @@ services:
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
-#  frog-manager-web:
-#    container_name: frog-manager-web
-#    image: frogdevelopment/frog-manager-web:master
-#    expose:
-#      - 80
-#    restart: always
-#    depends_on:
-#      - service-gateway
-#    environment:
-#      VIRTUAL_HOST: manager.frog-development.com
-#      LETSENCRYPT_HOST: manager.frog-development.com
-#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  frog-manager-web:
+    container_name: frog-manager-web
+    image: frogdevelopment/frog-manager-web:master
+    expose:
+      - 80
+    restart: always
+    depends_on:
+      - service-gateway
+      - nihongo-dico-entries-service
+      - nihongo-dico-sentences-service
+      - nihongo-dico-lessons-service
+    environment:
+      VIRTUAL_HOST: manager.frog-development.com
+      LETSENCRYPT_HOST: manager.frog-development.com
+      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
 #  postgres:
 #    container_name: postgres
