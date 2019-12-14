@@ -41,7 +41,7 @@ services:
 
   service-administration:
     container_name: service-administration
-    image: frogdevelopment/service-administration:1.0.1-SNAPSHOT
+    image: frogdevelopment/service-administration:feature_security
     expose:
       - 8080
     volumes:
