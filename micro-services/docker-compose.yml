@@ -24,13 +24,12 @@ services:
   # support
   service-registry:
     container_name: service-registry
-    image: frogdevelopment/service-registry:1.0.1-SNAPSHOT
-    volumes:
-      - /tmp/service-registry:/tmp
-      - logs:/var/log
+    image: frogdevelopment/service-registry:feature_security
     restart: always
+    ports:
+    - 8761:8080
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -38,18 +37,19 @@ services:
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-administration:
     container_name: service-administration
     image: frogdevelopment/service-administration:feature_security
     expose:
       - 8080
-    volumes:
-      - /tmp/service-administration:/tmp
-      - logs:/var/log
     restart: always
+    ports:
+    - 8080:8080
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -63,19 +63,17 @@ services:
       LETSENCRYPT_HOST: boot-admin.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
       WEBHOOK_URL: ${WEBHOOK_URL}
-      SBA_USER: ${SBA_USER}
-      SBA_PASSWORD: ${SBA_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-config:
     container_name: service-config
-    image: frogdevelopment/service-config:1.0.1-SNAPSHOT
+    image: frogdevelopment/service-config:feature_security
     volumes:
-      - /tmp/service-config:/tmp
-      - logs:/var/log
       - /root/.ssh:/root/.ssh
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -87,21 +85,20 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},git
       GIT_URI: ${GIT_URI}
       GIT_LABEL: ${GIT_LABEL}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-gateway:
     container_name: service-gateway
-    image: frogdevelopment/service-gateway:master
+    image: frogdevelopment/service-gateway:feature_security
     expose:
       - 8080
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 40s
-    volumes:
-      - /tmp/service-gateway:/tmp
-      - logs:/var/log
     restart: always
     depends_on:
       - service-registry
@@ -112,17 +109,16 @@ services:
       VIRTUAL_HOST: gateway.frog-development.com
       LETSENCRYPT_HOST: gateway.frog-development.com
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   # services
   authentication-service:
     container_name: authentication-service
-    image: frogdevelopment/authentication-service:fix_authentication
-    volumes:
-      - /tmp/authentication-service:/tmp
-      - logs:/var/log
+    image: frogdevelopment/authentication-service:feature_security
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -137,16 +133,15 @@ services:
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
-    image: frogdevelopment/nihongo-dico-entries-service:feature_export
-    volumes:
-      - /tmp/nihongo-dico-entries-service:/tmp
-      - logs:/var/log
+    image: frogdevelopment/nihongo-dico-entries-service:feature_security
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -163,16 +158,15 @@ services:
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
-    image: frogdevelopment/nihongo-dico-sentences-service:feature_export
-    volumes:
-      - /tmp/nihongo-dico-sentences-service:/tmp
-      - logs:/var/log
+    image: frogdevelopment/nihongo-dico-sentences-service:feature_security
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -189,15 +183,15 @@ services:
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-lessons-service:
     container_name: nihongo-lessons-service
-    image: frogdevelopment/nihongo-lessons-service:feat_update
-    volumes:
-      - logs:/var/log
+    image: frogdevelopment/nihongo-lessons-service:feature_security
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -214,19 +208,21 @@ services:
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-  nihongo-lesson-migrate-service:
-    container_name: nihongo-lesson-migrate-service
-    image: frogdevelopment/nihongo-lesson-migrate-service:master
-    volumes:
-      - logs:/var/log
-    depends_on:
-      - nihongo-lessons-service
-    environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#  nihongo-lesson-migrate-service:
+#    container_name: nihongo-lesson-migrate-service
+#    image: frogdevelopment/nihongo-lesson-migrate-service:master
+#    depends_on:
+#      - nihongo-lessons-service
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   #  book-search-service:
   #    container_name: book-search-service
