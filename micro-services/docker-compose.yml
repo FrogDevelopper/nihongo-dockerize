@@ -24,12 +24,13 @@ services:
   # support
   service-registry:
     container_name: service-registry
-    image: frogdevelopment/service-registry:feature_security
+    image: frogdevelopment/service-registry:master
     restart: always
     ports:
     - 8761:8080
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+#      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -42,14 +43,14 @@ services:
 
   service-administration:
     container_name: service-administration
-    image: frogdevelopment/service-administration:feature_security
+    image: frogdevelopment/service-administration:master
     expose:
       - 8080
     restart: always
     ports:
     - 8080:8080
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -68,12 +69,12 @@ services:
 
   service-config:
     container_name: service-config
-    image: frogdevelopment/service-config:feature_security
+    image: frogdevelopment/service-config:master
     volumes:
       - /root/.ssh:/root/.ssh
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -90,11 +91,11 @@ services:
 
   service-gateway:
     container_name: service-gateway
-    image: frogdevelopment/service-gateway:feature_security
+    image: frogdevelopment/service-gateway:master
     expose:
       - 8080
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -118,7 +119,7 @@ services:
     image: frogdevelopment/authentication-service:master
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -141,7 +142,7 @@ services:
     image: frogdevelopment/nihongo-dico-entries-service:feature_export
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -166,7 +167,7 @@ services:
     image: frogdevelopment/nihongo-dico-sentences-service:feature_export
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -191,7 +192,7 @@ services:
     image: frogdevelopment/nihongo-lessons-service:master
     restart: always
     healthcheck:
-      test: ["CMD", "curl", "--fail", "--silent", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
