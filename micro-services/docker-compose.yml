@@ -24,7 +24,7 @@ services:
   # support
   service-registry:
     container_name: service-registry
-    image: frogdevelopment/service-registry:feature_secure
+    image: frogdevelopment/service-registry:feature_security
     restart: always
     ports:
     - 8761:8080
