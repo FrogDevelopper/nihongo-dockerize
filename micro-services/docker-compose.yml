@@ -3,6 +3,43 @@ version: "3.7"
 services:
 
   # tools
+  nginx-proxy:
+    image: jwilder/nginx-proxy:alpine-0.7.0
+    container_name: nginx-proxy
+    restart: always
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - dhparam:/etc/nginx/dhparam
+      - certs:/etc/nginx/certs:ro
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    logging:
+      options:
+        max-size: "50k"
+        max-file: "2"
+
+  nginx-proxy-letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
+    container_name: nginx-proxy-letsencrypt
+    restart: always
+    depends_on:
+      - nginx-proxy
+    volumes:
+      - certs:/etc/nginx/certs:rw
+      - vhost:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    logging:
+      options:
+        max-size: "50k"
+        max-file: "2"
+    environment:
+      NGINX_PROXY_CONTAINER: nginx-proxy
+
+
   postgres:
     container_name: pgroonga
     image: groonga/pgroonga:2.2.2-alpine-12-slim
@@ -139,7 +176,7 @@ services:
 
   nihongo-dico-entries-service:
     container_name: nihongo-dico-entries-service
-    image: frogdevelopment/nihongo-dico-entries-service:feature_export
+    image: frogdevelopment/nihongo-dico-entries-service:master
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
@@ -164,7 +201,7 @@ services:
 
   nihongo-dico-sentences-service:
     container_name: nihongo-dico-sentences-service
-    image: frogdevelopment/nihongo-dico-sentences-service:feature_export
+    image: frogdevelopment/nihongo-dico-sentences-service:master
     restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
@@ -290,4 +327,8 @@ volumes:
 
 networks:
   default:
+    name: frog_ms
+  frog_ms:
+    driver: bridge
+    external: false
     name: frog_ms
