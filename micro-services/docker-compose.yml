@@ -39,7 +39,6 @@ services:
     environment:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
-
   postgres:
     container_name: pgroonga
     image: groonga/pgroonga:2.2.2-alpine-12-slim
@@ -330,8 +329,4 @@ volumes:
 
 networks:
   default:
-    name: frog_ms
-  frog_ms:
-    driver: bridge
-    external: false
     name: frog_ms
