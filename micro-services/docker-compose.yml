@@ -276,7 +276,7 @@ services:
 
   nihongo-dico-web:
     container_name: nihongo-dico-web
-    image: frogdevelopment/nihongo-dico-web:master
+    image: frogdevelopment/nihongo-dico-web:latest
     expose:
       - 80
     restart: always
@@ -291,7 +291,7 @@ services:
 
   frog-manager-web:
     container_name: frog-manager-web
-    image: frogdevelopment/frog-manager-web:master
+    image: frogdevelopment/frog-manager-web:latest
     expose:
       - 80
     restart: always
