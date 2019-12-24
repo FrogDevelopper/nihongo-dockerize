@@ -323,7 +323,10 @@ services:
 
 volumes:
   postgres_data:
-  logs:
+  dhparam:
+  vhost:
+  html:
+  certs:
 
 networks:
   default:
