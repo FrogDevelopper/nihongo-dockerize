@@ -13,6 +13,8 @@ services:
     ports:
       - 80:80
       - 443:443
+    networks:
+      - pond
     volumes:
       - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:ro
@@ -33,6 +35,8 @@ services:
             - node.labels == small
     depends_on:
       - nginx-proxy
+    networks:
+      - pond
     volumes:
       - certs:/etc/nginx/certs:rw
       - vhost:/etc/nginx/vhost.d
@@ -59,6 +63,8 @@ services:
       retries: 5
     ports:
       - 9173:5432
+    networks:
+      - pond
     environment:
       POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
       POSTGRES_USER: ${POSTGRES_USER}
@@ -75,15 +81,17 @@ services:
         placement:
           constraints:
             - node.labels == small
-    ports:
-    - 8761:8080
     healthcheck:
-#      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+        #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 10s
+    ports:
+      - 8761:8080
+    networks:
+      - pond
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -98,10 +106,6 @@ services:
         placement:
           constraints:
             - node.labels == large
-    expose:
-      - 8080
-    ports:
-    - 8080:8080
     healthcheck:
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -110,6 +114,10 @@ services:
       start_period: 40s
     depends_on:
       - service-registry
+    ports:
+      - 8080:8080
+    networks:
+      - pond
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
@@ -381,8 +389,6 @@ volumes:
   certs:
 
 networks:
-  default:
-    name: pond
   pond:
     external:
       name: pond
