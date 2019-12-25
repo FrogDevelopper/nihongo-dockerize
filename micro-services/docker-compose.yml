@@ -6,10 +6,11 @@ services:
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine-0.7.0
     deploy:
-        mode: global
-        placement:
-          constraints:
-            - node.labels == small
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels == small
     ports:
       - 80:80
       - 443:443
@@ -29,10 +30,11 @@ services:
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
     deploy:
-        mode: global
-        placement:
-          constraints:
-            - node.labels == small
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels == small
     depends_on:
       - nginx-proxy
     networks:
@@ -52,10 +54,11 @@ services:
   postgres:
     image: groonga/pgroonga:2.2.2-alpine-12-slim
     deploy:
-        mode: global
-        placement:
-          constraints:
-            - node.labels == large
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels == large
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -76,13 +79,13 @@ services:
   service-registry:
     image: frogdevelopment/service-registry:master
     deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels == small
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels == small
     healthcheck:
-        #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
@@ -101,11 +104,11 @@ services:
   service-administration:
     image: frogdevelopment/service-administration:master
     deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels == large
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels == large
     healthcheck:
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -128,59 +131,59 @@ services:
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-#  service-config:
-#    image: frogdevelopment/service-config:master
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels == large
-#    volumes:
-#      - /root/.ssh:/root/.ssh
-#    healthcheck:
-#      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    depends_on:
-#      - service-registry
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},git
-#      GIT_URI: ${GIT_URI}
-#      GIT_LABEL: ${GIT_LABEL}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+  #  service-config:
+  #    image: frogdevelopment/service-config:master
+  #    deploy:
+  #        mode: replicated
+  #        replicas: 1
+  #        placement:
+  #          constraints:
+  #            - node.labels == large
+  #    volumes:
+  #      - /root/.ssh:/root/.ssh
+  #    healthcheck:
+  #      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+  #      interval: 20s
+  #      timeout: 5s
+  #      retries: 5
+  #      start_period: 40s
+  #    depends_on:
+  #      - service-registry
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},git
+  #      GIT_URI: ${GIT_URI}
+  #      GIT_LABEL: ${GIT_LABEL}
+  #      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+  #      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-#  service-gateway:
-#    image: frogdevelopment/service-gateway:master
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels == large
-#    expose:
-#      - 8080
-#    healthcheck:
-#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    depends_on:
-#      - service-registry
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
-#      VIRTUAL_HOST: gateway.frog-development.com
-#      LETSENCRYPT_HOST: gateway.frog-development.com
-#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+  #  service-gateway:
+  #    image: frogdevelopment/service-gateway:master
+  #    deploy:
+  #        mode: replicated
+  #        replicas: 1
+  #        placement:
+  #          constraints:
+  #            - node.labels == large
+  #    expose:
+  #      - 8080
+  #    healthcheck:
+  #      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+  #      interval: 20s
+  #      timeout: 5s
+  #      retries: 5
+  #      start_period: 40s
+  #    depends_on:
+  #      - service-registry
+  #    environment:
+  #      TZ: ${TIME_ZONE}
+  #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+  #      SIGNING_KEY: ${JWT_SIGNING_KEY}
+  #      VIRTUAL_HOST: gateway.frog-development.com
+  #      LETSENCRYPT_HOST: gateway.frog-development.com
+  #      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+  #      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+  #      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   # services
 #  authentication-service:
@@ -390,5 +393,4 @@ volumes:
 
 networks:
   pond:
-    external:
-      name: pond
+    name: pond
