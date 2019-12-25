@@ -10,7 +10,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels == small
+          - node.labels.small
     ports:
       - 80:80
       - 443:443
@@ -34,7 +34,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels == small
+          - node.labels.small
     depends_on:
       - nginx-proxy
     networks:
@@ -58,7 +58,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels == large
+          - node.labels.large
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -83,7 +83,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels == small
+          - node.labels.small
     healthcheck:
       #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
@@ -108,7 +108,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels == large
+          - node.labels.large
     healthcheck:
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -138,7 +138,7 @@ services:
   #        replicas: 1
   #        placement:
   #          constraints:
-  #            - node.labels == large
+  #            - node.labels.large
   #    volumes:
   #      - /root/.ssh:/root/.ssh
   #    healthcheck:
@@ -164,7 +164,7 @@ services:
   #        replicas: 1
   #        placement:
   #          constraints:
-  #            - node.labels == large
+  #            - node.labels.large
   #    expose:
   #      - 8080
   #    healthcheck:
@@ -193,7 +193,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == large
+#            - node.labels.large
 #    healthcheck:
 #      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
 #      interval: 20s
@@ -220,7 +220,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == large
+#            - node.labels.large
 #    healthcheck:
 #      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
 #      interval: 20s
@@ -249,7 +249,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == large
+#            - node.labels.large
 #    healthcheck:
 #      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
 #      interval: 20s
@@ -278,7 +278,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == large
+#            - node.labels.large
 #    healthcheck:
 #      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
 #      interval: 20s
@@ -307,7 +307,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == large
+#            - node.labels.large
 #    depends_on:
 #      - nihongo-lessons-service
 #    environment:
@@ -337,7 +337,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == small
+#            - node.labels.small
 #    expose:
 #      - 80
 #    depends_on:
@@ -356,7 +356,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels == small
+#            - node.labels.small
 #    expose:
 #      - 80
 #    depends_on:
