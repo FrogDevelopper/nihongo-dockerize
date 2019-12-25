@@ -393,4 +393,5 @@ volumes:
 
 networks:
   pond:
+    driver: overlay
     name: pond
