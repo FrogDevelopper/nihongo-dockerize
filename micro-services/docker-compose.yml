@@ -5,8 +5,6 @@ services:
   # tools
   nginx-proxy:
     image: jwilder/nginx-proxy:alpine-0.7.0
-    container_name: nginx-proxy
-    restart: always
     ports:
       - 80:80
       - 443:443
@@ -23,8 +21,6 @@ services:
 
   nginx-proxy-letsencrypt:
     image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
-    container_name: nginx-proxy-letsencrypt
-    restart: always
     depends_on:
       - nginx-proxy
     volumes:
@@ -40,9 +36,7 @@ services:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
   postgres:
-    container_name: pgroonga
     image: groonga/pgroonga:2.2.2-alpine-12-slim
-    restart: always
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U postgres"]
       interval: 10s
@@ -59,9 +53,7 @@ services:
 
   # support
   service-registry:
-    container_name: service-registry
     image: frogdevelopment/service-registry:master
-    restart: always
     ports:
     - 8761:8080
     healthcheck:
@@ -78,11 +70,9 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-administration:
-    container_name: service-administration
     image: frogdevelopment/service-administration:master
     expose:
       - 8080
-    restart: always
     ports:
     - 8080:8080
     healthcheck:
@@ -104,11 +94,9 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-config:
-    container_name: service-config
     image: frogdevelopment/service-config:master
     volumes:
       - /root/.ssh:/root/.ssh
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -126,7 +114,6 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   service-gateway:
-    container_name: service-gateway
     image: frogdevelopment/service-gateway:master
     expose:
       - 8080
@@ -136,7 +123,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
-    restart: always
     depends_on:
       - service-registry
     environment:
@@ -151,9 +137,7 @@ services:
 
   # services
   authentication-service:
-    container_name: authentication-service
     image: frogdevelopment/authentication-service:master
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -174,9 +158,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-entries-service:
-    container_name: nihongo-dico-entries-service
     image: frogdevelopment/nihongo-dico-entries-service:master
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -199,9 +181,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-sentences-service:
-    container_name: nihongo-dico-sentences-service
     image: frogdevelopment/nihongo-dico-sentences-service:master
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -224,9 +204,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-lessons-service:
-    container_name: nihongo-lessons-service
     image: frogdevelopment/nihongo-lessons-service:master
-    restart: always
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -249,7 +227,6 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
 #  nihongo-lesson-migrate-service:
-#    container_name: nihongo-lesson-migrate-service
 #    image: frogdevelopment/nihongo-lesson-migrate-service:master
 #    depends_on:
 #      - nihongo-lessons-service
@@ -262,7 +239,6 @@ services:
 #      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   #  book-search-service:
-  #    container_name: book-search-service
   #    image: frogdevelopment/book-search-service:master
   #    volumes:
   #      - logs:/var/log
@@ -275,11 +251,9 @@ services:
   #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-dico-web:
-    container_name: nihongo-dico-web
     image: frogdevelopment/nihongo-dico-web:latest
     expose:
       - 80
-    restart: always
     depends_on:
       - service-gateway
       - nihongo-dico-entries-service
@@ -290,11 +264,9 @@ services:
       LETSENCRYPT_EMAIL: frog-development-it@gmail.com
 
   frog-manager-web:
-    container_name: frog-manager-web
     image: frogdevelopment/frog-manager-web:latest
     expose:
       - 80
-    restart: always
     depends_on:
       - service-gateway
       - nihongo-dico-entries-service
