@@ -149,6 +149,8 @@ services:
     depends_on:
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
+    networks:
+      - pond
     environment:
       VIRTUAL_HOST: www.nihongo-dico.frog-development.com
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
@@ -166,6 +168,8 @@ services:
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
       - nihongo-lessons-service
+    networks:
+      - pond
     environment:
       VIRTUAL_HOST: manager.frog-development.com
       LETSENCRYPT_HOST: manager.frog-development.com
