@@ -26,7 +26,6 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
-      ADDITIONAL_EUREKA_SERVER_LIST:
 
   service-administration:
     image: frogdevelopment/service-administration:master
