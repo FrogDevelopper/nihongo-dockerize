@@ -146,8 +146,6 @@ services:
         placement:
           constraints:
             - node.labels.size == small
-    expose:
-      - 80
     depends_on:
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
@@ -164,8 +162,6 @@ services:
         placement:
           constraints:
             - node.labels.size == small
-    expose:
-      - 80
     depends_on:
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
