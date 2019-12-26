@@ -20,6 +20,8 @@ services:
       - service-config
       - service-registry
       - service-gateway
+    networks:
+      - pond
     environment:
       TZ: ${TIME_ZONE}
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -49,6 +51,8 @@ services:
 #      - service-gateway
 #      - authentication-service
 #      - postgres
+#    networks:
+#      - pond
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -78,6 +82,8 @@ services:
 #      - service-gateway
 #      - authentication-service
 #      - postgres
+#    networks:
+#      - pond
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -107,6 +113,8 @@ services:
 #      - service-gateway
 #      - authentication-service
 #      - postgres
+#    networks:
+#      - pond
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -126,6 +134,8 @@ services:
 #            - node.labels.size == large
 #    depends_on:
 #      - nihongo-lessons-service
+#    networks:
+#      - pond
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
@@ -141,6 +151,8 @@ services:
 #    restart: always
 #    depends_on:
 #      - service-registry
+#    networks:
+#      - pond
 #    environment:
 #      TZ: ${TIME_ZONE}
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
