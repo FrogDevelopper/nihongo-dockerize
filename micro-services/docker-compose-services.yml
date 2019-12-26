@@ -134,7 +134,7 @@ services:
     environment:
       VIRTUAL_HOST: www.nihongo-dico.frog-development.com
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
   frog-manager-web:
     image: frogdevelopment/frog-manager-web:latest
@@ -153,7 +153,7 @@ services:
     environment:
       VIRTUAL_HOST: manager.frog-development.com
       LETSENCRYPT_HOST: manager.frog-development.com
-      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
 networks:
   pond:
