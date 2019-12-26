@@ -52,32 +52,32 @@ services:
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-#  nihongo-dico-sentences-service:
-#    image: frogdevelopment/nihongo-dico-sentences-service:master
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels.size == large
-#    healthcheck:
-#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    depends_on:
-#      - authentication-service
-#    networks:
-#      - pond
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
-#      DB_USER: ${POSTGRES_USER}
-#      DB_PASSWORD: ${POSTGRES_PASSWORD}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+  nihongo-dico-sentences-service:
+    image: frogdevelopment/nihongo-dico-sentences-service:master
+    deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          constraints:
+            - node.labels.size == large
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - authentication-service
+    networks:
+      - pond
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
 #  nihongo-lessons-service:
 #    image: frogdevelopment/nihongo-lessons-service:master
