@@ -89,8 +89,11 @@ services:
     networks:
       - pond
     environment:
-      - PGADMIN_DEFAULT_EMAIL=${FROG_ADMIN_EMAIL}
-      - PGADMIN_DEFAULT_PASSWORD=${FROG_ADMIN_PWD}
+      PGADMIN_DEFAULT_EMAIL: ${FROG_ADMIN_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${FROG_ADMIN_PWD}
+      VIRTUAL_HOST: pgadmin.frog-development.com
+      LETSENCRYPT_HOST: pgadmin.frog-development.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
 volumes:
   postgres_data:

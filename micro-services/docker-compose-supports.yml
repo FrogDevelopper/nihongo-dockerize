@@ -26,6 +26,9 @@ services:
       SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      VIRTUAL_HOST: registry.frog-development.com
+      LETSENCRYPT_HOST: registry.frog-development.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
   service-administration:
     image: frogdevelopment/service-administration:master
