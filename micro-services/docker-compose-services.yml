@@ -149,7 +149,6 @@ services:
     expose:
       - 80
     depends_on:
-      - service-gateway
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
     environment:
@@ -168,7 +167,6 @@ services:
     expose:
       - 80
     depends_on:
-      - service-gateway
       - nihongo-dico-entries-service
       - nihongo-dico-sentences-service
       - nihongo-lessons-service
