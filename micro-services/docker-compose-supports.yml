@@ -9,7 +9,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels.size == small
+          - node.labels.size == large
     healthcheck:
       #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
