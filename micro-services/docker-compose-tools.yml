@@ -86,6 +86,8 @@ services:
       - 90:80
     depends_on:
       - postgres
+    networks:
+      - pond
     environment:
       - PGADMIN_DEFAULT_EMAIL=${FROG_ADMIN_EMAIL}
       - PGADMIN_DEFAULT_PASSWORD=${FROG_ADMIN_PWD}
