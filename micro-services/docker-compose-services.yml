@@ -106,26 +106,6 @@ services:
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-#  nihongo-lesson-migrate-service:
-#    image: frogdevelopment/nihongo-lesson-migrate-service:master
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels.size == large
-#    depends_on:
-#      - nihongo-lessons-service
-#    networks:
-#      - pond
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
-#      DB_USER: ${POSTGRES_USER}
-#      DB_PASSWORD: ${POSTGRES_PASSWORD}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
-
 #  book-search-service:
 #    image: frogdevelopment/book-search-service:master
 #    volumes:
