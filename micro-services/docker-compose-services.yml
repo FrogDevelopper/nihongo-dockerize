@@ -16,10 +16,6 @@ services:
       timeout: 5s
       retries: 5
       start_period: 40s
-    depends_on:
-      - service-config
-      - service-registry
-      - service-gateway
     networks:
       - pond
     environment:
@@ -45,12 +41,7 @@ services:
 #      timeout: 5s
 #      retries: 5
 #      start_period: 40s
-#    depends_on:
-#      - service-config
-#      - service-registry
-#      - service-gateway
 #      - authentication-service
-#      - postgres
 #    networks:
 #      - pond
 #    environment:
@@ -77,11 +68,7 @@ services:
 #      retries: 5
 #      start_period: 40s
 #    depends_on:
-#      - service-config
-#      - service-registry
-#      - service-gateway
 #      - authentication-service
-#      - postgres
 #    networks:
 #      - pond
 #    environment:
@@ -108,11 +95,7 @@ services:
 #      retries: 5
 #      start_period: 40s
 #    depends_on:
-#      - service-config
-#      - service-registry
-#      - service-gateway
 #      - authentication-service
-#      - postgres
 #    networks:
 #      - pond
 #    environment:
@@ -149,8 +132,6 @@ services:
 #    volumes:
 #      - logs:/var/log
 #    restart: always
-#    depends_on:
-#      - service-registry
 #    networks:
 #      - pond
 #    environment:
