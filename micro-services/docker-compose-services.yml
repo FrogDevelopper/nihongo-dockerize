@@ -1,0 +1,192 @@
+version: "3.7"
+
+services:
+
+  authentication-service:
+    image: frogdevelopment/authentication-service:master
+    deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          constraints:
+            - node.labels.size == large
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - service-config
+      - service-registry
+      - service-gateway
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
+#  nihongo-dico-entries-service:
+#    image: frogdevelopment/nihongo-dico-entries-service:master
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == large
+#    healthcheck:
+#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+#    depends_on:
+#      - service-config
+#      - service-registry
+#      - service-gateway
+#      - authentication-service
+#      - postgres
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
+#  nihongo-dico-sentences-service:
+#    image: frogdevelopment/nihongo-dico-sentences-service:master
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == large
+#    healthcheck:
+#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+#    depends_on:
+#      - service-config
+#      - service-registry
+#      - service-gateway
+#      - authentication-service
+#      - postgres
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
+#  nihongo-lessons-service:
+#    image: frogdevelopment/nihongo-lessons-service:master
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == large
+#    healthcheck:
+#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+#    depends_on:
+#      - service-config
+#      - service-registry
+#      - service-gateway
+#      - authentication-service
+#      - postgres
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
+#  nihongo-lesson-migrate-service:
+#    image: frogdevelopment/nihongo-lesson-migrate-service:master
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == large
+#    depends_on:
+#      - nihongo-lessons-service
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      DB_USER: ${POSTGRES_USER}
+#      DB_PASSWORD: ${POSTGRES_PASSWORD}
+#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
+#  book-search-service:
+#    image: frogdevelopment/book-search-service:master
+#    volumes:
+#      - logs:/var/log
+#    restart: always
+#    depends_on:
+#      - service-registry
+#    environment:
+#      TZ: ${TIME_ZONE}
+#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      SIGNING_KEY: ${JWT_SIGNING_KEY}
+
+#  nihongo-dico-web:
+#    image: frogdevelopment/nihongo-dico-web:latest
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == small
+#    expose:
+#      - 80
+#    depends_on:
+#      - service-gateway
+#      - nihongo-dico-entries-service
+#      - nihongo-dico-sentences-service
+#    environment:
+#      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+#  frog-manager-web:
+#    image: frogdevelopment/frog-manager-web:latest
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == small
+#    expose:
+#      - 80
+#    depends_on:
+#      - service-gateway
+#      - nihongo-dico-entries-service
+#      - nihongo-dico-sentences-service
+#      - nihongo-lessons-service
+#    environment:
+#      VIRTUAL_HOST: manager.frog-development.com
+#      LETSENCRYPT_HOST: manager.frog-development.com
+#      LETSENCRYPT_EMAIL: frog-development-it@gmail.com
+
+
+networks:
+  pond:
+    external: true
+    name: pond
