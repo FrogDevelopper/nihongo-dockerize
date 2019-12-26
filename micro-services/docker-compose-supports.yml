@@ -93,8 +93,6 @@ services:
         placement:
           constraints:
             - node.labels.size == small
-    expose:
-      - 8080
     healthcheck:
       test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
