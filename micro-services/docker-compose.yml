@@ -40,7 +40,7 @@ services:
       NGINX_PROXY_CONTAINER: nginx-proxy
 
   postgres:
-    container_name: pgroonga
+    container_name: postgres
     image: groonga/pgroonga:2.2.2-alpine-12-slim
     restart: always
     healthcheck:
