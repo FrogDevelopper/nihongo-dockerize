@@ -34,7 +34,7 @@ services:
       replicas: 1
       placement:
         constraints:
-          - node.labels.size == large
+          - node.labels.size == small
     healthcheck:
       test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
@@ -92,7 +92,7 @@ services:
 #        replicas: 1
 #        placement:
 #          constraints:
-#            - node.labels.size == large
+#            - node.labels.size == small
 #    expose:
 #      - 8080
 #    healthcheck:
