@@ -118,42 +118,42 @@ services:
 #      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
-  nihongo-dico-web:
-    image: frogdevelopment/nihongo-dico-web:latest
-    deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels.size == small
-    depends_on:
-      - nihongo-dico-entries-service
-      - nihongo-dico-sentences-service
-    networks:
-      - pond
-    environment:
-      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
-
-  frog-manager-web:
-    image: frogdevelopment/frog-manager-web:latest
-    deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels.size == small
-    depends_on:
-      - nihongo-dico-entries-service
-      - nihongo-dico-sentences-service
-      - nihongo-lessons-service
-    networks:
-      - pond
-    environment:
-      VIRTUAL_HOST: manager.frog-development.com
-      LETSENCRYPT_HOST: manager.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+#  nihongo-dico-web:
+#    image: frogdevelopment/nihongo-dico-web:latest
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == small
+#    depends_on:
+#      - nihongo-dico-entries-service
+#      - nihongo-dico-sentences-service
+#    networks:
+#      - pond
+#    environment:
+#      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+#      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+#
+#  frog-manager-web:
+#    image: frogdevelopment/frog-manager-web:latest
+#    deploy:
+#        mode: replicated
+#        replicas: 1
+#        placement:
+#          constraints:
+#            - node.labels.size == small
+#    depends_on:
+#      - nihongo-dico-entries-service
+#      - nihongo-dico-sentences-service
+#      - nihongo-lessons-service
+#    networks:
+#      - pond
+#    environment:
+#      VIRTUAL_HOST: manager.frog-development.com
+#      LETSENCRYPT_HOST: manager.frog-development.com
+#      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
 networks:
   pond:
