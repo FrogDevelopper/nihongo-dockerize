@@ -31,35 +31,35 @@ services:
       LETSENCRYPT_HOST: registry.frog-development.com
       LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
-#  service-administration:
-#    image: frogdevelopment/service-administration:master
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      placement:
-#        constraints:
-#          - node.labels.size == small
-#    healthcheck:
-#      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    depends_on:
-#      - service-registry
-#    networks:
-#      - pond
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-#      VIRTUAL_PORT: 8080
-#      VIRTUAL_HOST: boot-admin.frog-development.com
-#      LETSENCRYPT_HOST: boot-admin.frog-development.com
-#      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
-#      WEBHOOK_URL: ${WEBHOOK_URL}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
-#
+  service-administration:
+    image: frogdevelopment/service-administration:master
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.size == small
+    healthcheck:
+      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - service-registry
+    networks:
+      - pond
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      VIRTUAL_PORT: 8080
+      VIRTUAL_HOST: boot-admin.frog-development.com
+      LETSENCRYPT_HOST: boot-admin.frog-development.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+      WEBHOOK_URL: ${WEBHOOK_URL}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+
 #  service-config:
 #    image: frogdevelopment/service-config:master
 #    deploy:
