@@ -86,34 +86,34 @@ services:
       FROG_ADMIN_USER: ${FROG_ADMIN_USER}
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
-#  service-gateway:
-#    image: frogdevelopment/service-gateway:master
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels.size == small
-#    healthcheck:
-#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    depends_on:
-#      - service-registry
-#    networks:
-#      - pond
-#    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
-#      VIRTUAL_PORT: 8080
-#      VIRTUAL_HOST: gateway.frog-development.com
-#      LETSENCRYPT_HOST: gateway.frog-development.com
-#      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+  service-gateway:
+    image: frogdevelopment/service-gateway:master
+    deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          constraints:
+            - node.labels.size == small
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - service-registry
+    networks:
+      - pond
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+      VIRTUAL_PORT: 8080
+      VIRTUAL_HOST: gateway.frog-development.com
+      LETSENCRYPT_HOST: gateway.frog-development.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
 networks:
   pond:
