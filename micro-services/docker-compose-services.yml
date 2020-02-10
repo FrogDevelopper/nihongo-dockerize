@@ -28,7 +28,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-entries-service:
-    image: frogdevelopment/nihongo-dico-entries-service:master
+    image: frogdevelopment/nihongo-dico-entries-service:feature_export
     deploy:
         mode: replicated
         replicas: 1
