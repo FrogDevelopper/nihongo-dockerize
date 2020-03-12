@@ -155,6 +155,36 @@ services:
       LETSENCRYPT_HOST: manager.frog-development.com
       LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
+
+  ep-service:
+    image: frogdevelopment/ep-service:master
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.size == small
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - pond
+    environment:
+      TZ: ${TIME_ZONE}
+      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      SIGNING_KEY: ${JWT_SIGNING_KEY}
+      DB_USER: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
+      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      VIRTUAL_HOST: ep.frog-development.com
+      LETSENCRYPT_HOST: ep.frog-development.com
+      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+
+
 networks:
   pond:
     external: true
