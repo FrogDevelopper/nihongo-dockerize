@@ -29,7 +29,7 @@ services:
         max-file: "2"
 
   nginx-proxy-letsencrypt:
-    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12
+    image: jrcs/letsencrypt-nginx-proxy-companion:v1.12.1
     deploy:
       mode: replicated
       replicas: 1
@@ -51,7 +51,7 @@ services:
         max-file: "2"
 
   postgres:
-    image: groonga/pgroonga:2.2.2-alpine-12-slim
+    image: groonga/pgroonga:2.2.5-alpine-12-slim
     deploy:
       mode: replicated
       replicas: 1
