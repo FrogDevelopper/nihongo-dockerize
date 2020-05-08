@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker stack deploy -c <(docker-compose -f docker-compose-supports.yml config) stackfrog
+docker stack deploy -c docker-compose-supports.yml stackfrog
