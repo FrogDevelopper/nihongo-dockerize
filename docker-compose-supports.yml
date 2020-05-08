@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   service-registry:
-    image: frogdevelopment/service-registry:master
+    image: frogdevelopment/service-registry:feature_docker_secrets
     deploy:
       mode: replicated
       replicas: 1
@@ -11,26 +11,26 @@ services:
         constraints:
           - node.labels.size == small
     healthcheck:
-      #      test: ["CMD", "curl", "--fail", "--silent", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 10s
     networks:
       - pond
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
+      - frog_admin_email
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      TZ: Europe/Paris
       VIRTUAL_PORT: 8080
       VIRTUAL_HOST: registry.frog-development.com
       LETSENCRYPT_HOST: registry.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
+      LETSENCRYPT_EMAIL: /run/secrets/frog_admin_email
 
   service-administration:
-    image: frogdevelopment/service-administration:master
+    image: frogdevelopment/service-administration:feature_docker_secrets
     deploy:
       mode: replicated
       replicas: 1
@@ -38,7 +38,7 @@ services:
         constraints:
           - node.labels.size == small
     healthcheck:
-      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -47,29 +47,28 @@ services:
       - service-registry
     networks:
       - pond
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
+      - frog_admin_email
+      - slack_webhook
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
+      TZ: Europe/Paris
       VIRTUAL_PORT: 8080
       VIRTUAL_HOST: boot-admin.frog-development.com
       LETSENCRYPT_HOST: boot-admin.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
-      WEBHOOK_URL: ${WEBHOOK_URL}
-      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      LETSENCRYPT_EMAIL: /run/secrets/frog_admin_email
 
   service-config:
-    image: frogdevelopment/service-config:master
+    image: frogdevelopment/service-config:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
         placement:
           constraints:
             - node.labels.size == large
-    volumes:
-      - /root/.ssh:/root/.ssh
     healthcheck:
-      test: ["CMD", "curl", "${FROG_ADMIN_USER}:${FROG_ADMIN_PWD}@localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
       interval: 20s
       timeout: 5s
       retries: 5
@@ -78,16 +77,20 @@ services:
       - service-registry
     networks:
       - pond
+    secrets:
+      - git_uri
+      - frog_admin_user
+      - frog_admin_password
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},git
-      GIT_URI: ${GIT_URI}
-      GIT_LABEL: ${GIT_LABEL}
-      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      TZ: Europe/Paris
+#      SPRING_PROFILES_ACTIVE: production,dev,git
+#      GIT_URI: /run/secrets/git_uri
+      GIT_LABEL: master
+    volumes:
+      - /root/.ssh:/root/.ssh
 
   service-gateway:
-    image: frogdevelopment/service-gateway:master
+    image: frogdevelopment/service-gateway:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
@@ -104,16 +107,32 @@ services:
       - service-registry
     networks:
       - pond
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
+      - frog_admin_email
+      - jwt_signing_key
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE}
-      SIGNING_KEY: ${JWT_SIGNING_KEY}
+      TZ: Europe/Paris
+      SIGNING_KEY: /run/secrets/jwt_signing_key
       VIRTUAL_PORT: 8080
       VIRTUAL_HOST: gateway.frog-development.com
       LETSENCRYPT_HOST: gateway.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
-      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      LETSENCRYPT_EMAIL: /run/secrets/frog_admin_email
+
+secrets:
+  frog_admin_user:
+    external: true
+  frog_admin_password:
+    external: true
+  frog_admin_email:
+    external: true
+  slack_webhook:
+    external: true
+  jwt_signing_key:
+    external: true
+  git_uri:
+    external: true
 
 networks:
   pond:
