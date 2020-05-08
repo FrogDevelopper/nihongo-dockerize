@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   authentication-service:
-    image: frogdevelopment/authentication-service:master
+    image: frogdevelopment/authentication-service:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
@@ -19,8 +19,8 @@ services:
     networks:
       - pond
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      TZ: Europe/Paris
+      SPRING_PROFILES_ACTIVE: production,dev,postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -28,7 +28,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-entries-service:
-    image: frogdevelopment/nihongo-dico-entries-service:master
+    image: frogdevelopment/nihongo-dico-entries-service:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
@@ -44,8 +44,8 @@ services:
     networks:
       - pond
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      TZ: Europe/Paris
+      SPRING_PROFILES_ACTIVE: production,dev,postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -53,7 +53,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-dico-sentences-service:
-    image: frogdevelopment/nihongo-dico-sentences-service:master
+    image: frogdevelopment/nihongo-dico-sentences-service:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
@@ -71,8 +71,8 @@ services:
     networks:
       - pond
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      TZ: Europe/Paris
+      SPRING_PROFILES_ACTIVE: production,dev,postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -80,7 +80,7 @@ services:
       FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
 
   nihongo-lessons-service:
-    image: frogdevelopment/nihongo-lessons-service:master
+    image: frogdevelopment/nihongo-lessons-service:feature_docker_secrets
     deploy:
         mode: replicated
         replicas: 1
@@ -98,8 +98,8 @@ services:
     networks:
       - pond
     environment:
-      TZ: ${TIME_ZONE}
-      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+      TZ: Europe/Paris
+      SPRING_PROFILES_ACTIVE: production,dev,postgres
       SIGNING_KEY: ${JWT_SIGNING_KEY}
       DB_USER: ${POSTGRES_USER}
       DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -114,8 +114,8 @@ services:
 #    networks:
 #      - pond
 #    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      TZ: Europe/Paris
+#      SPRING_PROFILES_ACTIVE: production,dev,postgres
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-dico-web:
@@ -134,7 +134,6 @@ services:
     environment:
       VIRTUAL_HOST: www.nihongo-dico.frog-development.com
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
   frog-manager-web:
     image: frogdevelopment/frog-manager-web:latest
@@ -153,7 +152,6 @@ services:
     environment:
       VIRTUAL_HOST: manager.frog-development.com
       LETSENCRYPT_HOST: manager.frog-development.com
-      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
 #  ep-service:
 #    image: frogdevelopment/ep-service:master
@@ -172,8 +170,8 @@ services:
 #    networks:
 #      - pond
 #    environment:
-#      TZ: ${TIME_ZONE}
-#      SPRING_PROFILES_ACTIVE: ${SPRING_PROFILES_ACTIVE},postgres
+#      TZ: Europe/Paris
+#      SPRING_PROFILES_ACTIVE: production,dev,postgres
 #      SIGNING_KEY: ${JWT_SIGNING_KEY}
 #      DB_USER: ${POSTGRES_USER}
 #      DB_PASSWORD: ${POSTGRES_PASSWORD}
@@ -182,7 +180,6 @@ services:
 #      VIRTUAL_PORT: 8080
 #      VIRTUAL_HOST: ep.frog-development.com
 #      LETSENCRYPT_HOST: ep.frog-development.com
-#      LETSENCRYPT_EMAIL: ${FROG_ADMIN_EMAIL}
 
 
 networks:
