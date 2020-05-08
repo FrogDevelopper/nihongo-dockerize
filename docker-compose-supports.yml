@@ -83,8 +83,6 @@ services:
       - frog_admin_password
     environment:
       TZ: Europe/Paris
-#      SPRING_PROFILES_ACTIVE: production,dev,git
-#      GIT_URI: /run/secrets/git_uri
       GIT_LABEL: master
     volumes:
       - /root/.ssh:/root/.ssh
