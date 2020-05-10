@@ -18,14 +18,12 @@ services:
       start_period: 40s
     networks:
       - pond
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
     environment:
       TZ: Europe/Paris
-      SPRING_PROFILES_ACTIVE: production,dev,postgres
-      SIGNING_KEY: ${JWT_SIGNING_KEY}
-      DB_USER: ${POSTGRES_USER}
-      DB_PASSWORD: ${POSTGRES_PASSWORD}
-      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
+      SPRING_PROFILES_ACTIVE: postgres
 
 #  nihongo-dico-entries-service:
 #    image: frogdevelopment/nihongo-dico-entries-service:feature_docker_secrets
@@ -181,6 +179,11 @@ services:
 #      VIRTUAL_HOST: ep.frog-development.com
 #      LETSENCRYPT_HOST: ep.frog-development.com
 
+secrets:
+  frog_admin_user:
+    external: true
+  frog_admin_password:
+    external: true
 
 networks:
   pond:
