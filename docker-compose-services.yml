@@ -23,33 +23,29 @@ services:
       - frog_admin_password
     environment:
       TZ: Europe/Paris
-      SPRING_PROFILES_ACTIVE: postgres
 
-#  nihongo-dico-entries-service:
-#    image: frogdevelopment/nihongo-dico-entries-service:feature_docker_secrets
-#    deploy:
-#        mode: replicated
-#        replicas: 1
-#        placement:
-#          constraints:
-#            - node.labels.size == large
-#    healthcheck:
-#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    networks:
-#      - pond
-#    environment:
-#      TZ: Europe/Paris
-#      SPRING_PROFILES_ACTIVE: production,dev,postgres
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
-#      DB_USER: ${POSTGRES_USER}
-#      DB_PASSWORD: ${POSTGRES_PASSWORD}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
-#
+  nihongo-dico-entries-service:
+    image: frogdevelopment/nihongo-dico-entries-service:feature_docker_secrets
+    deploy:
+        mode: replicated
+        replicas: 1
+        placement:
+          constraints:
+            - node.labels.size == large
+    healthcheck:
+      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    networks:
+      - pond
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
+    environment:
+      TZ: Europe/Paris
+
 #  nihongo-dico-sentences-service:
 #    image: frogdevelopment/nihongo-dico-sentences-service:feature_docker_secrets
 #    deploy:
