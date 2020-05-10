@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   service-registry:
-    image: frogdevelopment/service-registry:feature_docker_secrets
+    image: frogdevelopment/service-registry:master
     deploy:
       mode: replicated
       replicas: 1
@@ -28,7 +28,7 @@ services:
       LETSENCRYPT_HOST: registry.frog-development.com
 
   service-administration:
-    image: frogdevelopment/service-administration:feature_docker_secrets
+    image: frogdevelopment/service-administration:master
     deploy:
       mode: replicated
       replicas: 1
@@ -56,7 +56,7 @@ services:
       LETSENCRYPT_HOST: boot-admin.frog-development.com
 
   service-config:
-    image: frogdevelopment/service-config:feature_docker_secrets
+    image: frogdevelopment/service-config:feature_docker_secrets_repository
     deploy:
         mode: replicated
         replicas: 1
@@ -77,6 +77,9 @@ services:
       - git_uri
       - frog_admin_user
       - frog_admin_password
+      - jwt_signing_key
+      - postgres_user
+      - postgres_password
     environment:
       TZ: Europe/Paris
       GIT_LABEL: master
@@ -84,7 +87,7 @@ services:
       - /root/.ssh:/root/.ssh
 
   service-gateway:
-    image: frogdevelopment/service-gateway:feature_docker_secrets
+    image: frogdevelopment/service-gateway:master
     deploy:
         mode: replicated
         replicas: 1
@@ -104,10 +107,8 @@ services:
     secrets:
       - frog_admin_user
       - frog_admin_password
-      - jwt_signing_key
     environment:
       TZ: Europe/Paris
-      SIGNING_KEY: /run/secrets/jwt_signing_key
       VIRTUAL_PORT: 8080
       VIRTUAL_HOST: gateway.frog-development.com
       LETSENCRYPT_HOST: gateway.frog-development.com
@@ -124,6 +125,10 @@ secrets:
   jwt_signing_key:
     external: true
   git_uri:
+    external: true
+  postgres_user:
+    external: true
+  postgres_password:
     external: true
 
 networks:
