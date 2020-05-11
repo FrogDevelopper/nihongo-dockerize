@@ -77,9 +77,10 @@ services:
       - git_uri
       - frog_admin_user
       - frog_admin_password
-      - jwt_signing_key
-      - postgres_user
-      - postgres_password
+      - source: application
+        target: /repository/application
+      - source: application-postgres
+        target: /repository/application-postgres
     environment:
       TZ: Europe/Paris
       GIT_LABEL: master
@@ -122,13 +123,11 @@ secrets:
     external: true
   slack_webhook:
     external: true
-  jwt_signing_key:
-    external: true
   git_uri:
     external: true
-  postgres_user:
+  application:
     external: true
-  postgres_password:
+  application-postgres:
     external: true
 
 networks:
