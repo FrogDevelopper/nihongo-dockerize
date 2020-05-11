@@ -78,9 +78,9 @@ services:
       - frog_admin_user
       - frog_admin_password
       - source: application
-        target: /repository/application
+        target: run/secrets/repository/application
       - source: application-postgres
-        target: /repository/application-postgres
+        target: run/secrets/repository/application-postgres
     environment:
       TZ: Europe/Paris
       GIT_LABEL: master
