@@ -3,7 +3,7 @@ version: "3.8"
 services:
 
   authentication-service:
-    image: frogdevelopment/authentication-service:feature_docker_secrets
+    image: frogdevelopment/authentication-service:master
     deploy:
         mode: replicated
         replicas: 1
@@ -25,7 +25,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-dico-entries-service:
-    image: frogdevelopment/nihongo-dico-entries-service:feature_docker_secrets
+    image: frogdevelopment/nihongo-dico-entries-service:master
     deploy:
         mode: replicated
         replicas: 1
@@ -47,7 +47,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-dico-sentences-service:
-    image: frogdevelopment/nihongo-dico-sentences-service:feature_docker_secrets
+    image: frogdevelopment/nihongo-dico-sentences-service:master
     deploy:
         mode: replicated
         replicas: 1
@@ -71,7 +71,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-lessons-service:
-    image: frogdevelopment/nihongo-lessons-service:feature_docker_secrets
+    image: frogdevelopment/nihongo-lessons-service:master
     deploy:
         mode: replicated
         replicas: 1
@@ -93,18 +93,6 @@ services:
       - frog_admin_password
     environment:
       TZ: Europe/Paris
-
-#  book-search-service:
-#    image: frogdevelopment/book-search-service:master
-#    volumes:
-#      - logs:/var/log
-#    restart: always
-#    networks:
-#      - pond
-#    environment:
-#      TZ: Europe/Paris
-#      SPRING_PROFILES_ACTIVE: production,dev,postgres
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
 
   nihongo-dico-web:
     image: frogdevelopment/nihongo-dico-web:latest
@@ -140,34 +128,6 @@ services:
     environment:
       VIRTUAL_HOST: manager.frog-development.com
       LETSENCRYPT_HOST: manager.frog-development.com
-
-#  ep-service:
-#    image: frogdevelopment/ep-service:master
-#    deploy:
-#      mode: replicated
-#      replicas: 1
-#      placement:
-#        constraints:
-#          - node.labels.size == small
-#    healthcheck:
-#      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-#      interval: 20s
-#      timeout: 5s
-#      retries: 5
-#      start_period: 40s
-#    networks:
-#      - pond
-#    environment:
-#      TZ: Europe/Paris
-#      SPRING_PROFILES_ACTIVE: production,dev,postgres
-#      SIGNING_KEY: ${JWT_SIGNING_KEY}
-#      DB_USER: ${POSTGRES_USER}
-#      DB_PASSWORD: ${POSTGRES_PASSWORD}
-#      FROG_ADMIN_USER: ${FROG_ADMIN_USER}
-#      FROG_ADMIN_PWD: ${FROG_ADMIN_PWD}
-#      VIRTUAL_PORT: 8080
-#      VIRTUAL_HOST: ep.frog-development.com
-#      LETSENCRYPT_HOST: ep.frog-development.com
 
 secrets:
   frog_admin_user:
