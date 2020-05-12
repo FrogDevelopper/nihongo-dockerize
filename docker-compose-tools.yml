@@ -88,8 +88,8 @@ services:
         constraints: [node.platform.os == linux]
     environment:
       DD_API_KEY: 8cd664d1373da518f0ae4af39c3d1d67
-      DD_LOGS_ENABLED: true
-      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: true
+      DD_LOGS_ENABLED: 'true'
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: 'true'
       DD_AC_EXCLUDE: "name:datadog-agent"
       DD_SITE: "datadoghq.eu"
     volumes:
