@@ -80,6 +80,24 @@ services:
       - postgres_data:/var/lib/postgresql/data
       - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
+  datadog-agent:
+    image: datadog/agent:7
+    deploy:
+      mode: global
+      placement:
+        constraints: [node.platform.os == linux]
+    environment:
+      DD_API_KEY: 8cd664d1373da518f0ae4af39c3d1d67
+      DD_LOGS_ENABLED: true
+      DD_LOGS_CONFIG_CONTAINER_COLLECT_ALL: true
+      DD_AC_EXCLUDE: "name:datadog-agent"
+      DD_SITE: "datadoghq.eu"
+    volumes:
+    - /var/run/docker.sock:/var/run/docker.sock:ro
+    - /proc/:/host/proc/:ro
+    - /opt/datadog-agent/run:/opt/datadog-agent/run:rw
+    - /sys/fs/cgroup/:/host/sys/fs/cgroup:ro
+
 secrets:
   postgres_password:
     external: true
