@@ -56,7 +56,7 @@ services:
       LETSENCRYPT_HOST: boot-admin.frog-development.com
 
   service-config:
-    image: frogdevelopment/service-config:feature_logstash
+    image: frogdevelopment/service-config:master
     deploy:
         mode: replicated
         replicas: 1
@@ -78,9 +78,9 @@ services:
       - frog_admin_user
       - frog_admin_password
       - source: application
-        target: run/secrets/repository/application
+        target: repository/application
       - source: application-postgres
-        target: run/secrets/repository/application-postgres
+        target: repository/application-postgres
     environment:
       TZ: Europe/Paris
       GIT_LABEL: master
