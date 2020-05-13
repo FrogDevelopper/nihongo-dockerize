@@ -56,7 +56,7 @@ services:
       LETSENCRYPT_HOST: boot-admin.frog-development.com
 
   service-config:
-    image: frogdevelopment/service-config:master
+    image: frogdevelopment/service-config:feature_logstash
     deploy:
         mode: replicated
         replicas: 1
