@@ -73,6 +73,8 @@ services:
       - service-registry
     networks:
       - pond
+    ports:
+    - 8888:8080
     secrets:
       - git_uri
       - frog_admin_user
