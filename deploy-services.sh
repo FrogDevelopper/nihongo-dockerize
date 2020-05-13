@@ -1,3 +1,3 @@
 #!/usr/bin/env bash
 
-docker stack deploy -c docker-compose-services.yml stackfrog
+docker stack deploy -c docker-compose-services.yml frog_services
