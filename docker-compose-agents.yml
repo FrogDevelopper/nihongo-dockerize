@@ -1,7 +1,7 @@
 version: '3.7'
 
 services:
-  agent:
+  portainer-agent:
     image: portainer/agent
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
