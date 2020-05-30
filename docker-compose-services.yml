@@ -112,7 +112,7 @@ services:
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
 
   frog-manager-web:
-    image: frogdevelopment/frog-manager-web:feature-nginx_conf
+    image: frogdevelopment/frog-manager-web:latest
     deploy:
         mode: replicated
         replicas: 1
