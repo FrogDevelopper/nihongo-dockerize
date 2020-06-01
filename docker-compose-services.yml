@@ -47,7 +47,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-dico-sentences-service:
-    image: frogdevelopment/nihongo-dico-sentences-service:master
+    image: frogdevelopment/nihongo-dico-sentences-service:feat_download_before
     deploy:
         mode: replicated
         replicas: 1
