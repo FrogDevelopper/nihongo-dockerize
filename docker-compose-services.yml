@@ -17,7 +17,7 @@ services:
       retries: 5
       start_period: 40s
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
@@ -28,7 +28,7 @@ services:
     image: frogdevelopment/nihongo-dico-entries-service:master
     deploy:
         mode: replicated
-        replicas: 1
+        replicas: 0
         placement:
           constraints:
             - node.labels.size == large
@@ -39,7 +39,7 @@ services:
       retries: 5
       start_period: 40s
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
@@ -50,7 +50,7 @@ services:
     image: frogdevelopment/nihongo-dico-sentences-service:feat_download_before
     deploy:
         mode: replicated
-        replicas: 1
+        replicas: 0
         placement:
           constraints:
             - node.labels.size == large
@@ -63,7 +63,7 @@ services:
     depends_on:
       - authentication-service
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
@@ -74,7 +74,7 @@ services:
     image: frogdevelopment/nihongo-lessons-service:master
     deploy:
         mode: replicated
-        replicas: 1
+        replicas: 0
         placement:
           constraints:
             - node.labels.size == large
@@ -87,47 +87,12 @@ services:
     depends_on:
       - authentication-service
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
     environment:
       TZ: Europe/Paris
-
-  nihongo-dico-web:
-    image: frogdevelopment/nihongo-dico-web:latest
-    deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels.size == small
-    depends_on:
-      - nihongo-dico-entries-service
-      - nihongo-dico-sentences-service
-    networks:
-      - pond
-    environment:
-      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
-      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
-
-  frog-manager-web:
-    image: frogdevelopment/frog-manager-web:latest
-    deploy:
-        mode: replicated
-        replicas: 1
-        placement:
-          constraints:
-            - node.labels.size == small
-    depends_on:
-      - nihongo-dico-entries-service
-      - nihongo-dico-sentences-service
-      - nihongo-lessons-service
-    networks:
-      - pond
-    environment:
-      VIRTUAL_HOST: manager.frog-development.com
-      LETSENCRYPT_HOST: manager.frog-development.com
 
 secrets:
   frog_admin_user:
@@ -136,6 +101,6 @@ secrets:
     external: true
 
 networks:
-  pond:
+  nihongo:
     external: true
-    name: pond
+    name: nihongo

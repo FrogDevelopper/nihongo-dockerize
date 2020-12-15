@@ -14,7 +14,7 @@ services:
       - 80:80
       - 443:443
     networks:
-      - pond
+      - nihongo
     volumes:
       - dhparam:/etc/nginx/dhparam
       - certs:/etc/nginx/certs:ro
@@ -39,7 +39,7 @@ services:
     depends_on:
       - nginx-proxy
     networks:
-      - pond
+      - nihongo
     volumes:
       - certs:/etc/nginx/certs:rw
       - vhost:/etc/nginx/vhost.d
@@ -53,7 +53,7 @@ services:
         max-file: "2"
 
   postgres:
-    image: groonga/pgroonga:2.2.2-alpine-12-slim
+    image: groonga/pgroonga:2.2.7-alpine-13-slim
     deploy:
       mode: replicated
       replicas: 1
@@ -68,7 +68,7 @@ services:
     ports:
       - 9173:5432
     networks:
-      - pond
+      - nihongo
     secrets:
       - postgres_password
       - postgres_user
@@ -78,7 +78,6 @@ services:
       POSTGRES_USER_FILE: /run/secrets/postgres_user
     volumes:
       - postgres_data:/var/lib/postgresql/data
-      - ./postgres/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
 
 secrets:
   postgres_password:
@@ -94,6 +93,6 @@ volumes:
   certs:
 
 networks:
-  pond:
+  nihongo:
     external: true
-    name: pond
+    name: nihongo

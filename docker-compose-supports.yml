@@ -2,8 +2,8 @@ version: "3.7"
 
 services:
 
-  service-registry:
-    image: frogdevelopment/service-registry:master
+  support-registry:
+    image: springsupports/support-registry:Hoxton.SR9
     deploy:
       mode: replicated
       replicas: 1
@@ -11,24 +11,24 @@ services:
         constraints:
           - node.labels.size == small
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 10s
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
     environment:
       TZ: Europe/Paris
       VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: registry.frog-development.com
-      LETSENCRYPT_HOST: registry.frog-development.com
+      VIRTUAL_HOST: registry.nihongo.frog-development.com
+      LETSENCRYPT_HOST: registry.nihongo.frog-development.com
 
-  service-administration:
-    image: frogdevelopment/service-administration:master
+  support-administration:
+    image: springsupports/support-administration:Hoxton.SR9
     deploy:
       mode: replicated
       replicas: 1
@@ -36,27 +36,27 @@ services:
         constraints:
           - node.labels.size == small
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 40s
     depends_on:
-      - service-registry
+      - support-registry
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
-      - slack_webhook
+#      - slack_webhook
     environment:
       TZ: Europe/Paris
       VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: boot-admin.frog-development.com
-      LETSENCRYPT_HOST: boot-admin.frog-development.com
+      VIRTUAL_HOST: boot-admin.nihongo.frog-development.com
+      LETSENCRYPT_HOST: boot-admin.nihongo.frog-development.com
 
-  service-config:
-    image: frogdevelopment/service-config:master
+  support-config-server:
+    image: springsupports/support-config-server:Hoxton.SR9
     deploy:
         mode: replicated
         replicas: 1
@@ -64,24 +64,22 @@ services:
           constraints:
             - node.labels.size == large
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 40s
     depends_on:
-      - service-registry
+      - support-registry
     networks:
-      - pond
-    ports:
-    - 8888:8080
+      - nihongo
     secrets:
       - git_uri
       - frog_admin_user
       - frog_admin_password
-      - source: application
+      - source: repository_application
         target: repository/application
-      - source: application-postgres
+      - source: repository_application-postgres
         target: repository/application-postgres
     environment:
       TZ: Europe/Paris
@@ -89,8 +87,8 @@ services:
     volumes:
       - /root/.ssh:/root/.ssh
 
-  service-gateway:
-    image: frogdevelopment/service-gateway:master
+  support-gateway:
+    image: springsupports/support-gateway:Hoxton.SR9
     deploy:
         mode: replicated
         replicas: 1
@@ -98,41 +96,44 @@ services:
           constraints:
             - node.labels.size == small
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 40s
     depends_on:
-      - service-registry
+      - support-registry
+      - support-config-server
     networks:
-      - pond
+      - nihongo
     secrets:
       - frog_admin_user
       - frog_admin_password
     environment:
       TZ: Europe/Paris
       VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: gateway.frog-development.com
-      LETSENCRYPT_HOST: gateway.frog-development.com
+      VIRTUAL_HOST: gateway.nihongo.frog-development.com
+      LETSENCRYPT_HOST: gateway.nihongo.frog-development.com
 
 secrets:
   frog_admin_user:
     external: true
   frog_admin_password:
     external: true
-  frog_admin_email:
-    external: true
-  slack_webhook:
-    external: true
   git_uri:
     external: true
-  application:
+  repository_application:
     external: true
-  application-postgres:
+  repository_application-postgres:
     external: true
+  repository_application-rabbitmq:
+    external: true
+  repository_notification-service:
+    external: true
+#  slack_webhook:
+#    external: true
 
 networks:
-  pond:
+  nihongo:
     external: true
-    name: pond
+    name: nihongo

@@ -1,0 +1,36 @@
+version: "3.7"
+
+services:
+
+  nihongo-dico-web:
+    image: frogdevelopment/nihongo-dico-web:latest
+    deploy:
+        mode: replicated
+        replicas: 0
+        placement:
+          constraints:
+            - node.labels.size == small
+    networks:
+      - nihongo
+    environment:
+      VIRTUAL_HOST: www.nihongo-dico.frog-development.com
+      LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
+
+  frog-manager-web:
+    image: frogdevelopment/frog-manager-web:latest
+    deploy:
+        mode: replicated
+        replicas: 0
+        placement:
+          constraints:
+            - node.labels.size == small
+    networks:
+      - nihongo
+    environment:
+      VIRTUAL_HOST: manager.nihongo.frog-development.com
+      LETSENCRYPT_HOST: manager.nihongo.frog-development.com
+
+networks:
+  nihongo:
+    external: true
+    name: nihongo

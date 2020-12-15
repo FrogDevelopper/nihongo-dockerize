@@ -1,5 +1,5 @@
 -- tables
-CREATE DATABASE frog_authentication OWNER backend;
-CREATE DATABASE nihongo_entries OWNER backend;
-CREATE DATABASE nihongo_sentences OWNER backend;
-CREATE DATABASE nihongo_lessons OWNER backend;
+CREATE DATABASE nihongo_authentication OWNER user_backend;
+CREATE DATABASE nihongo_entries OWNER user_backend;
+CREATE DATABASE nihongo_sentences OWNER user_backend;
+CREATE DATABASE nihongo_lessons OWNER user_backend;
