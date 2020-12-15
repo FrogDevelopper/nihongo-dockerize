@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   authentication-service:
-    image: frogdevelopment/authentication-service:master
+    image: frognihongo/authentication-service:feature_multi-schema
     deploy:
         mode: replicated
         replicas: 1
@@ -11,7 +11,7 @@ services:
           constraints:
             - node.labels.size == large
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
@@ -25,7 +25,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-dico-entries-service:
-    image: frogdevelopment/nihongo-dico-entries-service:master
+    image: frognihongo/nihongo-dico-entries-service:feature_multi-schema
     deploy:
         mode: replicated
         replicas: 0
@@ -33,7 +33,7 @@ services:
           constraints:
             - node.labels.size == large
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
@@ -47,7 +47,7 @@ services:
       TZ: Europe/Paris
 
   nihongo-dico-sentences-service:
-    image: frogdevelopment/nihongo-dico-sentences-service:feat_download_before
+    image: frognihongo/nihongo-dico-sentences-service:feature_multi-schema
     deploy:
         mode: replicated
         replicas: 0
@@ -55,13 +55,11 @@ services:
           constraints:
             - node.labels.size == large
     healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
       interval: 20s
       timeout: 5s
       retries: 5
       start_period: 40s
-    depends_on:
-      - authentication-service
     networks:
       - nihongo
     secrets:
@@ -70,29 +68,29 @@ services:
     environment:
       TZ: Europe/Paris
 
-  nihongo-lessons-service:
-    image: frogdevelopment/nihongo-lessons-service:master
-    deploy:
-        mode: replicated
-        replicas: 0
-        placement:
-          constraints:
-            - node.labels.size == large
-    healthcheck:
-      test: ["CMD", "curl", "localhost:8081/actuator/health 2>&1 | grep UP || exit 1"]
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
-    depends_on:
-      - authentication-service
-    networks:
-      - nihongo
-    secrets:
-      - frog_admin_user
-      - frog_admin_password
-    environment:
-      TZ: Europe/Paris
+#  nihongo-lessons-service:
+#    image: frognihongo/nihongo-lessons-service:feature_multi-schema
+#    deploy:
+#        mode: replicated
+#        replicas: 0
+#        placement:
+#          constraints:
+#            - node.labels.size == large
+#    healthcheck:
+#      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+#    depends_on:
+#      - authentication-service
+#    networks:
+#      - nihongo
+#    secrets:
+#      - frog_admin_user
+#      - frog_admin_password
+#    environment:
+#      TZ: Europe/Paris
 
 secrets:
   frog_admin_user:
