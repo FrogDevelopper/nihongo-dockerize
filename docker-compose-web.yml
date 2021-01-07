@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   nihongo-dico-web:
-    image: frogdevelopment/nihongo-dico-web:latest
+    image: frognihongo/nihongo-dico-web:latest
     deploy:
         mode: replicated
         replicas: 0
@@ -17,7 +17,7 @@ services:
       LETSENCRYPT_HOST: www.nihongo-dico.frog-development.com
 
   frog-manager-web:
-    image: frogdevelopment/frog-manager-web:latest
+    image: frognihongo/frog-manager-web:latest
     deploy:
         mode: replicated
         replicas: 0

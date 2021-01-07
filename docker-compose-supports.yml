@@ -27,34 +27,6 @@ services:
       VIRTUAL_HOST: registry.nihongo.frog-development.com
       LETSENCRYPT_HOST: registry.nihongo.frog-development.com
 
-  support-administration:
-    image: springsupports/support-administration:Hoxton.SR9
-    deploy:
-      mode: replicated
-      replicas: 1
-      placement:
-        constraints:
-          - node.labels.size == small
-    healthcheck:
-      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
-    depends_on:
-      - support-registry
-    networks:
-      - nihongo
-    secrets:
-      - frog_admin_user
-      - frog_admin_password
-#      - slack_webhook
-    environment:
-      TZ: Europe/Paris
-      VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: boot-admin.nihongo.frog-development.com
-      LETSENCRYPT_HOST: boot-admin.nihongo.frog-development.com
-
   support-config-server:
     image: springsupports/support-config-server:Hoxton.SR9
     deploy:
@@ -91,7 +63,7 @@ services:
     image: springsupports/support-gateway:Hoxton.SR9
     deploy:
         mode: replicated
-        replicas: 1
+        replicas: 0
         placement:
           constraints:
             - node.labels.size == small
@@ -114,6 +86,34 @@ services:
       VIRTUAL_PORT: 8080
       VIRTUAL_HOST: gateway.nihongo.frog-development.com
       LETSENCRYPT_HOST: gateway.nihongo.frog-development.com
+
+  support-administration:
+    image: springsupports/support-administration:Hoxton.SR9
+    deploy:
+      mode: replicated
+      replicas: 0
+      placement:
+        constraints:
+          - node.labels.size == small
+    healthcheck:
+      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
+      interval: 20s
+      timeout: 5s
+      retries: 5
+      start_period: 40s
+    depends_on:
+      - support-registry
+    networks:
+      - nihongo
+    secrets:
+      - frog_admin_user
+      - frog_admin_password
+    #      - slack_webhook
+    environment:
+      TZ: Europe/Paris
+      VIRTUAL_PORT: 8080
+      VIRTUAL_HOST: boot-admin.nihongo.frog-development.com
+      LETSENCRYPT_HOST: boot-admin.nihongo.frog-development.com
 
 secrets:
   frog_admin_user:
