@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
   support-registry:
-    image: springsupports/support-registry:Hoxton.SR9
+    image: springsupports/support-registry:2021.0.4
     deploy:
       mode: replicated
       replicas: 1
@@ -28,7 +28,7 @@ services:
       LETSENCRYPT_HOST: registry.nihongo.frog-development.com
 
   support-config-server:
-    image: springsupports/support-config-server:Hoxton.SR9
+    image: springsupports/support-config-server:2021.0.4
     deploy:
         mode: replicated
         replicas: 1
@@ -60,7 +60,7 @@ services:
       - /root/.ssh:/root/.ssh
 
   support-gateway:
-    image: springsupports/support-gateway:Hoxton.SR9
+    image: springsupports/support-gateway:2021.0.4
     deploy:
         mode: replicated
         replicas: 0
@@ -87,33 +87,32 @@ services:
       VIRTUAL_HOST: gateway.nihongo.frog-development.com
       LETSENCRYPT_HOST: gateway.nihongo.frog-development.com
 
-  support-administration:
-    image: springsupports/support-administration:Hoxton.SR9
-    deploy:
-      mode: replicated
-      replicas: 0
-      placement:
-        constraints:
-          - node.labels.size == small
-    healthcheck:
-      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
-      interval: 20s
-      timeout: 5s
-      retries: 5
-      start_period: 40s
-    depends_on:
-      - support-registry
-    networks:
-      - nihongo
-    secrets:
-      - frog_admin_user
-      - frog_admin_password
-    #      - slack_webhook
-    environment:
-      TZ: Europe/Paris
-      VIRTUAL_PORT: 8080
-      VIRTUAL_HOST: boot-admin.nihongo.frog-development.com
-      LETSENCRYPT_HOST: boot-admin.nihongo.frog-development.com
+#  support-administration:
+#    image: springsupports/support-administration:2021.0.4
+#    deploy:
+#      mode: replicated
+#      replicas: 0
+#      placement:
+#        constraints:
+#          - node.labels.size == small
+#    healthcheck:
+#      test: "curl --fail --silent localhost:8081/actuator/health | grep UP || exit 1"
+#      interval: 20s
+#      timeout: 5s
+#      retries: 5
+#      start_period: 40s
+#    depends_on:
+#      - support-registry
+#    networks:
+#      - nihongo
+#    secrets:
+#      - frog_admin_user
+#      - frog_admin_password
+#    environment:
+#      TZ: Europe/Paris
+#      VIRTUAL_PORT: 8080
+#      VIRTUAL_HOST: boot-admin.nihongo.frog-development.com
+#      LETSENCRYPT_HOST: boot-admin.nihongo.frog-development.com
 
 secrets:
   frog_admin_user:
@@ -130,8 +129,6 @@ secrets:
     external: true
   repository_notification-service:
     external: true
-#  slack_webhook:
-#    external: true
 
 networks:
   nihongo:

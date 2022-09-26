@@ -11,8 +11,8 @@ services:
         constraints:
           - node.labels.size == small
     ports:
-      - 80:80
-      - 443:443
+      - "80:80"
+      - "443:443"
     networks:
       - nihongo
     volumes:
@@ -21,6 +21,8 @@ services:
       - vhost:/etc/nginx/vhost.d
       - html:/usr/share/nginx/html
       - /var/run/docker.sock:/tmp/docker.sock:ro
+      - sftp_data:/home
+      - /opt/nginx/conf.nginx:/etc/nginx/nginx.conf
     labels:
       - com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy
     logging:
@@ -53,7 +55,7 @@ services:
         max-file: "2"
 
   postgres:
-    image: groonga/pgroonga:2.2.7-alpine-13-slim
+    image: groonga/pgroonga:2.3.4-alpine-14-slim
     deploy:
       mode: replicated
       replicas: 1
@@ -66,7 +68,7 @@ services:
       timeout: 5s
       retries: 5
     ports:
-      - 9173:5432
+      - "9173:5432"
     networks:
       - nihongo
     secrets:
@@ -78,6 +80,34 @@ services:
       POSTGRES_USER_FILE: /run/secrets/postgres_user
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  sftp:
+    image: atmoz/sftp:alpine
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.size == large
+    ports:
+      - "22:22"
+    volumes:
+      - sftp_data:/home
+    command: frog_admin_user:frog_admin_pwd:1001::dico,lessons
+
+  nginx:
+    image: nginx:1.23-alpine
+    deploy:
+      mode: replicated
+      replicas: 1
+      placement:
+        constraints:
+          - node.labels.size == large
+    ports:
+      - "88:80"
+    volumes:
+      - sftp_data:/home:ro
+      - /opt/nginx/conf.nginx:/etc/nginx/nginx.conf:ro
 
 secrets:
   postgres_password:
@@ -91,6 +121,8 @@ volumes:
   vhost:
   html:
   certs:
+  sftp_data:
+
 
 networks:
   nihongo:
