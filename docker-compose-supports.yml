@@ -47,6 +47,8 @@ services:
       - nihongo
     secrets:
       - git_uri
+      - host-key
+      - private-key
       - frog_admin_user
       - frog_admin_password
       - source: repository_application
@@ -121,14 +123,18 @@ secrets:
     external: true
   git_uri:
     external: true
+  host-key:
+    external: true
+  private-key:
+    external: true
   repository_application:
     external: true
   repository_application-postgres:
     external: true
-  repository_application-rabbitmq:
-    external: true
-  repository_notification-service:
-    external: true
+#  repository_application-rabbitmq:
+#    external: true
+#  repository_notification-service:
+#    external: true
 
 networks:
   nihongo:
