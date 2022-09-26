@@ -3,7 +3,7 @@ version: "3.7"
 services:
 
 #  authentication-service:
-#    image: frognihongo/authentication-service:feature_multi-schema
+#    image: frognihongo/authentication-service:feature-micronaut_migration
 #    deploy:
 #        mode: replicated
 #        replicas: 1
@@ -26,7 +26,7 @@ services:
 #      MICRONAUT_ENVIRONMENTS: docker
 
   nihongo-dico-entries-service:
-    image: frognihongo/nihongo-dico-entries-service:feature_multi-schema
+    image: frognihongo/nihongo-dico-entries-service:feature-micronaut_migration
     deploy:
         mode: replicated
         replicas: 0
@@ -49,7 +49,7 @@ services:
       MICRONAUT_ENVIRONMENTS: docker
 
   nihongo-dico-sentences-service:
-    image: frognihongo/nihongo-dico-sentences-service:feature_multi-schema
+    image: frognihongo/nihongo-dico-sentences-service:feature-micronaut_migration
     deploy:
         mode: replicated
         replicas: 0
@@ -72,7 +72,7 @@ services:
       MICRONAUT_ENVIRONMENTS: docker
 
 #  nihongo-lessons-service:
-#    image: frognihongo/nihongo-lessons-service:feature_multi-schema
+#    image: frognihongo/nihongo-lessons-service:feature-micronaut_migration
 #    deploy:
 #        mode: replicated
 #        replicas: 0
